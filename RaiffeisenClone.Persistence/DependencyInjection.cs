@@ -8,10 +8,10 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddPersistence(this IServiceCollection collection, IConfiguration configuration)
     {
-        var connectionString = configuration["DbConnection"];
+        var connectionString = configuration["Sqlite"];
         collection.AddDbContext<ApplicationDbContext>(options =>
         {
-            options.UseSqlServer(connectionString);
+            options.UseSqlite(connectionString);
         });
         return collection;
     }
