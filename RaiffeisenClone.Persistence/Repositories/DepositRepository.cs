@@ -10,7 +10,7 @@ public class DepositRepository : IRepository<Deposit>
 
     public DepositRepository(ApplicationDbContext context) => (_context) = (context);
     
-    public async Task<IEnumerable<Deposit>> GetStudents()
+    public async Task<IEnumerable<Deposit>> GetAllAsync()
     {
         return await _context.Deposits.ToListAsync();
     }

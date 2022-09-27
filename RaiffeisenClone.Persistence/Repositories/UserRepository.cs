@@ -10,7 +10,7 @@ public class UserRepository : IRepository<User>
 
     public UserRepository(ApplicationDbContext context) => (_context) = (context);
     
-    public async Task<IEnumerable<User>> GetStudents()
+    public async Task<IEnumerable<User>> GetAllAsync()
     {
         return await _context.Users.ToListAsync();
     }
