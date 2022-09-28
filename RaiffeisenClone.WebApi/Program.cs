@@ -2,6 +2,7 @@ using RaiffeisenClone.Application;
 using RaiffeisenClone.Application.Services;
 using RaiffeisenClone.Persistence;
 using RaiffeisenClone.Persistence.Repositories;
+using RaiffeisenClone.WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

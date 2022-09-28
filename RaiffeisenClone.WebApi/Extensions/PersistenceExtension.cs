@@ -1,10 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using RaiffeisenClone.Persistence;
 
-namespace RaiffeisenClone.Persistence;
+namespace RaiffeisenClone.WebApi.Extensions;
 
-public static class DependencyInjection
+public static class PersistenceExtension
 {
     public static IServiceCollection AddPersistence(this IServiceCollection collection, IConfiguration configuration)
     {

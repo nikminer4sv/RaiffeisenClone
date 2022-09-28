@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using RaiffeisenClone.Application.ViewModels;
 using RaiffeisenClone.Domain;
 using RaiffeisenClone.Persistence.Interfaces;
 

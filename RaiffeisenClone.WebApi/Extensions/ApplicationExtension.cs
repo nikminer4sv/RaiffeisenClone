@@ -1,10 +1,8 @@
-using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
 using RaiffeisenClone.Application.MappingProfiles;
 
-namespace RaiffeisenClone.Application;
+namespace RaiffeisenClone.WebApi.Extensions;
 
-public static class DependencyInjection
+public static class ApplicationExtension
 {
     public static IServiceCollection AddApplication(this IServiceCollection collection)
     {
