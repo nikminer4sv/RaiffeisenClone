@@ -6,7 +6,7 @@ namespace RaiffeisenClone.WebApi.Controllers;
 
 [ApiController]
 [Route("/api/[controller]/[action]")]
-public class DepositController
+public class DepositController : ControllerBase
 {
     protected readonly DepositRepository _depositRepository;
 

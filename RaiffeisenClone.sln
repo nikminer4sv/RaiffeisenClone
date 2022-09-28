@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaiffeisenClone.Persistence
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaiffeisenClone.WebApi", "RaiffeisenClone.WebApi\RaiffeisenClone.WebApi.csproj", "{3D062A27-38AF-4D13-AD74-EDDCCB8013A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaiffeisenClone.Application", "RaiffeisenClone.Application\RaiffeisenClone.Application.csproj", "{AE898460-860D-4727-96DB-A1F528C0429F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{3D062A27-38AF-4D13-AD74-EDDCCB8013A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D062A27-38AF-4D13-AD74-EDDCCB8013A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D062A27-38AF-4D13-AD74-EDDCCB8013A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE898460-860D-4727-96DB-A1F528C0429F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE898460-860D-4727-96DB-A1F528C0429F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE898460-860D-4727-96DB-A1F528C0429F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE898460-860D-4727-96DB-A1F528C0429F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

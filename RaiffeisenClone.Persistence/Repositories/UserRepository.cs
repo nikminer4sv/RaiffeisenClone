@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using RaiffeisenClone.Application.ViewModels;
 using RaiffeisenClone.Domain;
 using RaiffeisenClone.Persistence.Interfaces;
 
@@ -12,6 +13,7 @@ public class UserRepository : IRepository<User>
     
     public async Task<IEnumerable<User>> GetAllAsync()
     {
+        
         return await _context.Users.ToListAsync();
     }
 

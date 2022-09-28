@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\RaiffeisenClone.Application\RaiffeisenClone.Application.csproj" />
       <ProjectReference Include="..\RaiffeisenClone.Persistence\RaiffeisenClone.Persistence.csproj" />
     </ItemGroup>
 

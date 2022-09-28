@@ -1,48 +1,47 @@
 using Microsoft.AspNetCore.Mvc;
+using RaiffeisenClone.Application.Services;
+using RaiffeisenClone.Application.ViewModels;
 using RaiffeisenClone.Domain;
-using RaiffeisenClone.Persistence.Repositories;
 
 namespace RaiffeisenClone.WebApi.Controllers;
 
 [ApiController]
 [Route("/api/[controller]/[action]")]
-public class UserController
+public class UserController : ControllerBase
 {
-    private readonly UserRepository _userRepository;
+    private readonly UserService _userService;
 
-    public UserController(UserRepository userRepository) => _userRepository = userRepository;
-    
+    public UserController(UserService userService) => (_userService) = (userService);
+
     [HttpGet]
-    public async Task<IEnumerable<User>> GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        return await _userRepository.GetAllAsync();
+        return Ok(await _userService.GetAllAsync());
     }
 
     [HttpGet]
-    public async Task<User> GetById(Guid id)
+    public async Task<IActionResult> GetById(Guid id)
     {
-        return await _userRepository.GetByIdAsync(id) ?? new User();
+        return Ok(await _userService.GetByIdAsync(id));
     }
 
     [HttpPost]
-    public async Task Add(User user)
+    public async Task<IActionResult> Add(UserViewModel userViewModel)
     {
-        user.Id = Guid.NewGuid();
-        await _userRepository.AddAsync(user);
-        await _userRepository.SaveAsync();
+        return Created("", await _userService.AddAsync(userViewModel));
     }
 
     [HttpPut]
-    public async Task Update(User user)
+    public async Task<IActionResult> Update(User user)
     {
-        await _userRepository.UpdateAsync(user);
-        await _userRepository.SaveAsync();
+        await _userService.UpdateAsync(user);
+        return Ok();
     }
 
     [HttpDelete]
-    public async Task Delete(Guid id)
+    public async Task<IActionResult> Delete(Guid id)
     {
-        await _userRepository.DeleteAsync(id);
-        await _userRepository.SaveAsync();
+        await _userService.DeleteAsync(id);
+        return NoContent();
     }
 }
