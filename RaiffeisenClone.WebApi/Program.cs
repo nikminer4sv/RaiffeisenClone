@@ -1,5 +1,6 @@
 using RaiffeisenClone.Application;
 using RaiffeisenClone.Application.Services;
+using RaiffeisenClone.Domain;
 using RaiffeisenClone.Persistence;
 using RaiffeisenClone.Persistence.Repositories;
 using RaiffeisenClone.WebApi.Extensions;
@@ -17,6 +18,7 @@ builder.Services.AddApplication();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<DepositRepository>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<DepositService>();
 
 var app = builder.Build();
 

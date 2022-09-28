@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using RaiffeisenClone.Application.Services;
+using RaiffeisenClone.Application.ViewModels;
 using RaiffeisenClone.Domain;
 using RaiffeisenClone.Persistence.Repositories;
 
@@ -8,42 +10,40 @@ namespace RaiffeisenClone.WebApi.Controllers;
 [Route("/api/[controller]/[action]")]
 public class DepositController : ControllerBase
 {
-    protected readonly DepositRepository _depositRepository;
+    private readonly DepositService _depositService;
 
-    public DepositController(UserRepository userRepository, DepositRepository depositRepository) => _depositRepository = depositRepository;
-    
+    public DepositController(DepositService depositService) => (_depositService) = (depositService);
+
     [HttpGet]
-    public async Task<IEnumerable<Deposit>> GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        return await _depositRepository.GetAllAsync();
+        return Ok(await _depositService.GetAllAsync());
     }
 
     [HttpGet]
-    public async Task<Deposit> GetById(Guid id)
+    public async Task<IActionResult> GetById(Guid id)
     {
-        return await _depositRepository.GetByIdAsync(id) ?? new Deposit();
+        return Ok(await _depositService.GetByIdAsync(id));
     }
 
     [HttpPost]
-    public async Task Add(Deposit deposit)
+    public async Task<IActionResult> Add(DepositViewModel depositViewModel)
     {
-        deposit.Id = Guid.NewGuid();
-        await _depositRepository.AddAsync(deposit);
-        await _depositRepository.SaveAsync();
+        return Created("", await _depositService.AddAsync(depositViewModel));
     }
 
     [HttpPut]
-    public async Task Update(Deposit deposit)
+    public async Task<IActionResult> Update(Deposit deposit)
     {
-        await _depositRepository.UpdateAsync(deposit);
-        await _depositRepository.SaveAsync();
+        await _depositService.UpdateAsync(deposit);
+        return Ok();
     }
 
     [HttpDelete]
-    public async Task Delete(Guid id)
+    public async Task<IActionResult> Delete(Guid id)
     {
-        await _depositRepository.DeleteAsync(id);
-        await _depositRepository.SaveAsync();
+        await _depositService.DeleteAsync(id);
+        return NoContent();
     }
     
 }

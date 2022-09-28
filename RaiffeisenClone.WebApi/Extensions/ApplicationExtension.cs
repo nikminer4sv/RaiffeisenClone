@@ -6,7 +6,7 @@ public static class ApplicationExtension
 {
     public static IServiceCollection AddApplication(this IServiceCollection collection)
     {
-        collection.AddAutoMapper(typeof(UserProfile));
+        collection.AddAutoMapper(typeof(UserProfile), typeof(DepositProfile));
         return collection;
     }
 }
