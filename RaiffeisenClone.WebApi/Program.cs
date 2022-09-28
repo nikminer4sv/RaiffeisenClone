@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using RaiffeisenClone.Application;
 using RaiffeisenClone.Application.Services;
 using RaiffeisenClone.Domain;
@@ -13,7 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddPersistence(builder.Configuration.GetConnectionString("Sqlite"));
 builder.Services.AddApplication();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<DepositRepository>();
@@ -34,5 +35,16 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    if (context.Database.GetPendingMigrations().Any())
+    {
+        context.Database.Migrate();
+    }
+}
 
 app.Run();
