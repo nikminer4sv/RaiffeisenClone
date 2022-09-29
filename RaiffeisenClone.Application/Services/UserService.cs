@@ -21,6 +21,8 @@ public class UserService
     public async Task<UserViewModel> GetByIdAsync(Guid id)
     {
         User? user = await _userRepository.GetByIdAsync(id);
+        if (user is null)
+            throw new KeyNotFoundException("User not found.");
         UserViewModel userViewModel = _mapper.Map<UserViewModel>(user);
         return userViewModel;
     }
@@ -36,12 +38,18 @@ public class UserService
     
     public async Task UpdateAsync(User user)
     {
+        bool exist = await _userRepository.ContainsAsync(user.Id);
+        if (!exist)
+            throw new KeyNotFoundException("User not found.");
         await _userRepository.UpdateAsync(user);
         await _userRepository.SaveAsync();
     }
     
     public async Task DeleteAsync(Guid id)
     {
+        bool exist = await _userRepository.ContainsAsync(id);
+        if (!exist)
+            throw new KeyNotFoundException("User not found.");
         await _userRepository.DeleteAsync(id);
         await _userRepository.SaveAsync();
     }

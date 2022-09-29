@@ -37,7 +37,17 @@ public class UserRepository : IRepository<User>
 
     public async Task UpdateAsync(User obj)
     {
-        _context.Entry(obj).State = EntityState.Modified;
+        _context.Users.Update(obj);
+    }
+
+    public async Task<bool> ContainsAsync(User obj)
+    {
+        return await _context.Users.ContainsAsync(obj);
+    }
+    
+    public async Task<bool> ContainsAsync(Guid id)
+    {
+        return await _context.Users.AnyAsync(u => u.Id == id);
     }
 
     public async Task SaveAsync()

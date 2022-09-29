@@ -7,5 +7,7 @@ public interface IRepository<T> : IDisposable
     Task AddAsync(T obj);
     Task DeleteAsync(Guid Id);
     Task UpdateAsync(T obj);
+    Task<bool> ContainsAsync(Guid id);
+    Task<bool> ContainsAsync(T obj);
     Task SaveAsync();
 }

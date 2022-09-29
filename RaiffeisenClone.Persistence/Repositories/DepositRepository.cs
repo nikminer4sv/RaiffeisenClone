@@ -36,7 +36,17 @@ public class DepositRepository : IRepository<Deposit>
 
     public async Task UpdateAsync(Deposit obj)
     {
-        _context.Entry(obj).State = EntityState.Modified;
+        _context.Deposits.Update(obj);
+    }
+
+    public async Task<bool> ContainsAsync(Deposit obj)
+    {
+        return await _context.Deposits.ContainsAsync(obj);
+    }
+    
+    public async Task<bool> ContainsAsync(Guid id)
+    {
+        return await _context.Deposits.AnyAsync(d => d.Id == id);
     }
 
     public async Task SaveAsync()

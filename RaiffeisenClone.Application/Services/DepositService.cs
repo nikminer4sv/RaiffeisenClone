@@ -21,6 +21,8 @@ public class DepositService
     public async Task<DepositViewModel> GetByIdAsync(Guid id)
     {
         Deposit? deposit = await _depositRepository.GetByIdAsync(id);
+        if (deposit is null)
+            throw new KeyNotFoundException("Deposit not found.");
         DepositViewModel depositViewModel = _mapper.Map<DepositViewModel>(deposit);
         return depositViewModel;
     }
@@ -36,12 +38,18 @@ public class DepositService
     
     public async Task UpdateAsync(Deposit deposit)
     {
+        bool exist = await _depositRepository.ContainsAsync(deposit.Id);
+        if (!exist)
+            throw new KeyNotFoundException("Deposit not found.");
         await _depositRepository.UpdateAsync(deposit);
         await _depositRepository.SaveAsync();
     }
     
     public async Task DeleteAsync(Guid id)
     {
+        bool exist = await _depositRepository.ContainsAsync(id);
+        if (!exist)
+            throw new KeyNotFoundException("Deposit not found.");
         await _depositRepository.DeleteAsync(id);
         await _depositRepository.SaveAsync();
     }

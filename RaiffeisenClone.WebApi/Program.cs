@@ -5,6 +5,7 @@ using RaiffeisenClone.Domain;
 using RaiffeisenClone.Persistence;
 using RaiffeisenClone.Persistence.Repositories;
 using RaiffeisenClone.WebApi.Extensions;
+using RaiffeisenClone.WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,11 +30,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 // Configure the HTTP request pipeline.
-
+app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
