@@ -9,7 +9,7 @@ public static class PersistenceExtension
     {
         collection.AddDbContext<ApplicationDbContext>(options =>
         {
-            options.UseSqlite(connectionString);
+            options.UseSqlServer(connectionString, b => b.MigrationsAssembly("RaiffeisenClone.WebApi"));
         });
         return collection;
     }

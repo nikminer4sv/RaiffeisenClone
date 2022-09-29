@@ -8,7 +8,6 @@ public class DepositConfiguration : IEntityTypeConfiguration<Deposit>
 {
     public void Configure(EntityTypeBuilder<Deposit> builder)
     {
-        builder.HasKey(d => d.Id);
         builder.Property(d => d.UserId).IsRequired();
         builder.Property(d => d.Term).IsRequired();
         builder.Property(d => d.Currency).HasMaxLength(3).IsRequired();

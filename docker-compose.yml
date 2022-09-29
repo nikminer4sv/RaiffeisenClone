@@ -1,5 +1,15 @@
 version: "3.9"
 services:
+  db:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    volumes:
+      - events_mssql:/var/opt/mssql
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=1
+      - MSSQL_SA_PASSWORD=7514895263a-B
+
   api:
     image: api
     build:
@@ -15,3 +25,8 @@ services:
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
       - ~/.aspnet/https:/https:ro
+    depends_on:
+      - db
+
+volumes:
+  events_mssql:

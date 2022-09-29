@@ -14,7 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddPersistence(builder.Configuration.GetConnectionString("Sqlite"));
+builder.Services.AddPersistence(builder.Configuration.GetConnectionString("MSSql"));
 builder.Services.AddApplication();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<DepositRepository>();
