@@ -18,19 +18,35 @@ public class UserService
         return (await _userRepository.GetAllAsync()).Select(u => _mapper.Map<UserViewModel>(u));
     }
     
-    public async Task<UserViewModel> GetByIdAsync(Guid id)
+    public async Task<User> GetByIdAsync(Guid id)
     {
         User? user = await _userRepository.GetByIdAsync(id);
         if (user is null)
             throw new KeyNotFoundException("User not found.");
-        UserViewModel userViewModel = _mapper.Map<UserViewModel>(user);
-        return userViewModel;
+        return user;
+    }
+
+    public async Task<User?> GetByUsernameAsync(string username)
+    {
+        User? user = await _userRepository.GetByUsernameAsync(username);
+        if (username is null)
+            throw new KeyNotFoundException("User not found.");
+        return user;
+    }
+
+    public async Task<User?> GetByRefreshToken(string token)
+    {
+        User? user = await _userRepository.GetUserByRefreshToken(token);
+        if (user is null)
+            throw new KeyNotFoundException("User not found.");
+        return user;
     }
     
-    public async Task<Guid> AddAsync(UserViewModel userViewModel)
+    public async Task<Guid> AddAsync(RegisterViewModel registerViewModel)
     {
-        User user = _mapper.Map<User>(userViewModel);
+        User user = _mapper.Map<User>(registerViewModel);
         user.Id = Guid.NewGuid();
+        user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerViewModel.Password);
         await _userRepository.AddAsync(user);
         await _userRepository.SaveAsync();
         return user.Id;

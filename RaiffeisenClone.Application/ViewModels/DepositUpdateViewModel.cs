@@ -1,7 +1,8 @@
 namespace RaiffeisenClone.Application.ViewModels;
 
-public class DepositViewModel
+public class DepositUpdateViewModel
 {
+    public Guid Id { get; set; }
     public DateTime Term { get; set; }
     public float Bid { get; set; }
     public string Currency { get; set; }

@@ -21,6 +21,17 @@ public class UserRepository : IRepository<User>
         return await _context.Users.FindAsync(id);
     }
 
+    public async Task<User?> GetByUsernameAsync(string username)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+    }
+
+    public async Task<User?> GetUserByRefreshToken(string token)
+    {
+        User? user = await _context.Users.Include(u => u.RefreshTokens).SingleOrDefaultAsync(u => u.RefreshTokens.Any(t => t.Token == token));
+        return user;
+    }
+
     public async Task AddAsync(User obj)
     {
         await _context.Users.AddAsync(obj);

@@ -9,5 +9,7 @@ public class UserProfile : Profile
     public UserProfile()
     {
         CreateMap<User, UserViewModel>().ReverseMap();
+        //CreateMap<User, LoginViewModel>().ReverseMap();
+        CreateMap<RegisterViewModel, User>();
     }
 }

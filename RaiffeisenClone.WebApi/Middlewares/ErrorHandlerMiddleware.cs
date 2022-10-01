@@ -45,7 +45,13 @@ public class ErrorHandlerMiddleware
                     break;
             }
 
-            var result = JsonSerializer.Serialize(new { message = error?.Message });
+            var result = JsonSerializer.Serialize(new
+            {
+                error?.Message, 
+                error?.Source,
+                error?.HelpLink,
+                error?.StackTrace
+            });
             await response.WriteAsync(result);
         }
     }

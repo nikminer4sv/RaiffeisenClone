@@ -9,5 +9,6 @@ public class DepositProfile : Profile
     public DepositProfile()
     {
         CreateMap<Deposit, DepositViewModel>().ReverseMap();
+        CreateMap<DepositUpdateViewModel, Deposit>();
     }
 }
