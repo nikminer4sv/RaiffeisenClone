@@ -17,7 +17,9 @@ public class DepositRepository : IRepository<Deposit>
 
     public async Task<Deposit?> GetByIdAsync(Guid id)
     {
-        return await _context.Deposits.FindAsync(id);
+        Deposit? deposit = await _context.Deposits.FindAsync(id);
+        _context.Entry(deposit).State = EntityState.Detached;
+        return deposit;
     }
 
     public async Task AddAsync(Deposit obj)

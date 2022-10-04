@@ -51,10 +51,7 @@ public class ErrorHandlerMiddleware
 
             var result = JsonSerializer.Serialize(new
             {
-                error?.Message, 
-                error?.Source,
-                error?.HelpLink,
-                error?.StackTrace
+                error?.Message
             });
             await response.WriteAsync(result);
         }

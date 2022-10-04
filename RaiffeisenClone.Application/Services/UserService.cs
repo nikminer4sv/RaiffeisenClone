@@ -44,6 +44,9 @@ public class UserService
     
     public async Task<Guid> AddAsync(RegisterViewModel registerViewModel)
     {
+        if (await IsUserExist(registerViewModel.Username))
+            throw new Exception("Username is already taken");
+        
         User user = _mapper.Map<User>(registerViewModel);
         user.Id = Guid.NewGuid();
         user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerViewModel.Password);
@@ -68,5 +71,13 @@ public class UserService
             throw new KeyNotFoundException("User not found.");
         await _userRepository.DeleteAsync(id);
         await _userRepository.SaveAsync();
+    }
+
+    public async Task<bool> IsUserExist(string username)
+    {
+        User? user = await _userRepository.GetByUsernameAsync(username);
+        if (user is null)
+            return false;
+        return true;
     }
 }

@@ -43,6 +43,7 @@ public class DepositService
         if (temp is null || temp.UserId != userId)
             throw new KeyNotFoundException("Deposit not found.");
         temp = _mapper.Map<Deposit>(depositUpdateViewModel);
+        temp.UserId = userId;
         await _depositRepository.UpdateAsync(temp);
         await _depositRepository.SaveAsync();
     }

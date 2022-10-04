@@ -1,9 +1,8 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using RaiffeisenClone.Application.Services;
 using RaiffeisenClone.Application.ViewModels;
+using RaiffeisenClone.Application.ViewModels.IdViewModel;
 using RaiffeisenClone.Domain;
-using RaiffeisenClone.Persistence.Repositories;
 using RaiffeisenClone.WebApi.Attributes;
 
 namespace RaiffeisenClone.WebApi.Controllers;
@@ -34,9 +33,9 @@ public class DepositController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetById(Guid id)
+    public async Task<IActionResult> GetById(IdViewModel model)
     {
-        return Ok(await _depositService.GetByIdAsync(id, UserId));
+        return Ok(await _depositService.GetByIdAsync(model.Id, UserId));
     }
 
     [HttpPost]
@@ -53,9 +52,9 @@ public class DepositController : ControllerBase
     }
 
     [HttpDelete]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete(IdViewModel model)
     {
-        await _depositService.DeleteAsync(id, UserId);
+        await _depositService.DeleteAsync(model.Id, UserId);
         return NoContent();
     }
 

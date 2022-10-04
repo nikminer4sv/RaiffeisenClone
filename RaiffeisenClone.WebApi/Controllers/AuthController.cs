@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RaiffeisenClone.Application.Services;
 using RaiffeisenClone.Application.ViewModels;
-using RaiffeisenClone.Domain;
 
 namespace RaiffeisenClone.WebApi.Controllers;
 
@@ -9,12 +8,10 @@ namespace RaiffeisenClone.WebApi.Controllers;
 [Route("/[controller]/[action]")]
 public class AuthController : ControllerBase
 {
-    private readonly JwtService _jwtService;
     private readonly AuthService _authService;
-    private readonly ILogger<AuthController> _logger;
 
-    public AuthController(JwtService jwtService, AuthService authService, ILogger<AuthController> logger) => 
-        (_jwtService, _authService, _logger) = (jwtService, authService, logger);
+    public AuthController(AuthService authService) => 
+        (_authService) = (authService);
 
     [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel model)
