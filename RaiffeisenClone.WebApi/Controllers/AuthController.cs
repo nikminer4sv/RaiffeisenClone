@@ -23,7 +23,7 @@ public class AuthController : ControllerBase
         setTokenCookie(response.RefreshToken);
         return Ok(response);
     }
-
+    
     [HttpPost]
     public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
     {

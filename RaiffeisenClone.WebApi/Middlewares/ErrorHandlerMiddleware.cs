@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using FluentValidation;
 using RaiffeisenClone.Application.Exceptions;
 
 namespace RaiffeisenClone.WebApi.Middlewares;
@@ -26,6 +27,9 @@ public class ErrorHandlerMiddleware
 
             switch(error)
             {
+                case ValidationException validationException:
+                    response.StatusCode = (int) HttpStatusCode.OK;
+                    break;
                 case AppException e:
                     // custom application error
                     response.StatusCode = (int)HttpStatusCode.BadRequest;

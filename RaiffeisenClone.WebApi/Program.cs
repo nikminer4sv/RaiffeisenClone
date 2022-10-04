@@ -41,7 +41,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddPersistence(builder.Configuration.GetConnectionString("MSSqlLocal"));
+builder.Services.AddPersistence(builder.Configuration.GetConnectionString("MSSql"));
 builder.Services.AddApplication();
 
 var app = builder.Build();
