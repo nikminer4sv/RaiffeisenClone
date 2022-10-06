@@ -1,28 +1,19 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RaiffeisenClone.Application.Interfaces;
 using RaiffeisenClone.Application.Services;
 using RaiffeisenClone.Application.ViewModels;
 using RaiffeisenClone.Application.ViewModels.IdViewModel;
 using RaiffeisenClone.Domain;
-using RaiffeisenClone.WebApi.Attributes;
 
 namespace RaiffeisenClone.WebApi.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("/api/[controller]")]
-public class DepositController : ControllerBase
+public class DepositController : BaseController
 {
     private readonly IDepositService _depositService;
-
-    private Guid UserId
-    {
-        get
-        {
-            User user = (User) HttpContext.Items["User"];
-            return user.Id;
-        }
-    }
 
     public DepositController(IDepositService depositService) => 
         (_depositService) = (depositService);

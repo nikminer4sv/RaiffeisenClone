@@ -3,7 +3,6 @@ using RaiffeisenClone.Application.Interfaces;
 using RaiffeisenClone.Application.ViewModels;
 using RaiffeisenClone.Domain;
 using RaiffeisenClone.Persistence.Interfaces;
-using RaiffeisenClone.Persistence.Repositories;
 
 namespace RaiffeisenClone.Application.Services;
 

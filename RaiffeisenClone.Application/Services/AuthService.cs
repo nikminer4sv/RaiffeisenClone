@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using RaiffeisenClone.Application.Exceptions;
 using RaiffeisenClone.Application.ViewModels;
 using RaiffeisenClone.Application.Helpers;
@@ -10,11 +10,11 @@ namespace RaiffeisenClone.Application.Services;
 public class AuthService : IAuthService
 {
     private readonly IUserService _userService;
-    private readonly IConfiguration _configuration;
+    private readonly TokensSettings _tokensSettings;
     private readonly IJwtService _jwtService;
 
-    public AuthService(IUserService userService, IConfiguration configuration, IJwtService jwtService) =>
-        (_userService, _configuration, _jwtService) = (userService, configuration, jwtService);
+    public AuthService(IUserService userService, IOptions<TokensSettings> tokenSettings, IJwtService jwtService) =>
+        (_userService, _tokensSettings, _jwtService) = (userService, tokenSettings.Value, jwtService);
     
     public async Task<AuthenticateResponse> Authenticate(LoginViewModel model, string ipAddress)
     { 
@@ -108,7 +108,7 @@ public class AuthService : IAuthService
         // remove old inactive refresh tokens from user based on TTL in app settings
         user.RefreshTokens.RemoveAll(x => 
             !x.IsActive && 
-            x.Created.AddDays(int.Parse(_configuration["TokensSettings:RefreshTokenTTL"])) <= DateTime.UtcNow);
+            x.Created.AddDays(_tokensSettings.RefreshTokenTTL) <= DateTime.UtcNow);
     }
 
     private void revokeDescendantRefreshTokens(RefreshToken refreshToken, User user, string ipAddress, string reason)

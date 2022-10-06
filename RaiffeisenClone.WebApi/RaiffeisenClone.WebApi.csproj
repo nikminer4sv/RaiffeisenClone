@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.2" />
+        <PackageReference Include="IdentityModel" Version="6.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
           <PrivateAssets>all</PrivateAssets>
@@ -20,6 +21,10 @@
     <ItemGroup>
       <ProjectReference Include="..\RaiffeisenClone.Application\RaiffeisenClone.Application.csproj" />
       <ProjectReference Include="..\RaiffeisenClone.Persistence\RaiffeisenClone.Persistence.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Settings" />
     </ItemGroup>
 
 </Project>

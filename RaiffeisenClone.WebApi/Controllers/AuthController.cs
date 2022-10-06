@@ -6,15 +6,14 @@ using RaiffeisenClone.Application.ViewModels;
 namespace RaiffeisenClone.WebApi.Controllers;
 
 [ApiController]
-[Route("/[controller]/[action]")]
-public class AuthController : ControllerBase
+public class AuthController : BaseController
 {
     private readonly IAuthService _authService;
 
     public AuthController(IAuthService authService) => 
         (_authService) = (authService);
 
-    [HttpPost]
+    [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginViewModel model)
     {
         var response = await _authService.Authenticate(model, ipAddress());
@@ -22,14 +21,14 @@ public class AuthController : ControllerBase
         return Ok(response);
     }
     
-    [HttpPost]
+    [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterViewModel registerViewModel)
     {
         await _authService.Register(registerViewModel);
         return Ok();
     }
     
-    [HttpPost]
+    [HttpPost("refresh-token")]
     public async Task<IActionResult> RefreshToken()
     {
         var refreshToken = Request.Cookies["refreshToken"];
@@ -38,7 +37,7 @@ public class AuthController : ControllerBase
         return Ok(response);
     }
     
-    [HttpPost]
+    [HttpPost("revoke-token")]
     public async Task<IActionResult> RevokeToken([FromBody] string? refreshToken)
     {
         var token = (refreshToken is null) ? Request.Cookies["refreshToken"] : refreshToken;

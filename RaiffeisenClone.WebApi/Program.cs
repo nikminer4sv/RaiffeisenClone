@@ -1,15 +1,18 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using RaiffeisenClone.Application.Helpers;
 using RaiffeisenClone.Persistence;
 using RaiffeisenClone.WebApi.Extensions;
 using RaiffeisenClone.WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllers();
+builder.Services.Configure<TokensSettings>(builder.Configuration.GetSection("TokensSettings"));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -37,6 +40,26 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+
+builder.Services.AddAuthentication(config =>
+{
+    config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer("Bearer", options =>
+{
+    options.SaveToken = true;
+    options.Audience = "API";
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateIssuerSigningKey = true,
+        RequireExpirationTime = false,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["TokensSettings:Secret"]))
+    };
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddPersistence(builder.Configuration.GetConnectionString("MSSqlLocal"));
 builder.Services.AddApplication();
@@ -51,8 +74,8 @@ if (app.Environment.IsDevelopment())
 }
 // Configure the HTTP request pipeline.
 app.UseMiddleware<ErrorHandlerMiddleware>();
-app.UseMiddleware<AuthorizationMiddleware>();
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

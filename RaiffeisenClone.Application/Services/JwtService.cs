@@ -3,7 +3,9 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using RaiffeisenClone.Application.Helpers;
 using RaiffeisenClone.Application.Interfaces;
 using RaiffeisenClone.Domain;
 using RaiffeisenClone.Persistence;
@@ -13,18 +15,18 @@ namespace RaiffeisenClone.Application.Services;
 public class JwtService : IJwtService
 {
     private readonly ApplicationDbContext _context;
-    private readonly IConfiguration _configuration;
+    private readonly TokensSettings _tokensSettings;
 
-    public JwtService(ApplicationDbContext context, IConfiguration configuration) =>
-        (_context, _configuration) = (context, configuration);
+    public JwtService(ApplicationDbContext context, IOptions<TokensSettings> tokensSettings) =>
+        (_context, _tokensSettings) = (context, tokensSettings.Value);
     public string GenerateJwtToken(User user)
     {
         // generate token that is valid for 15 minutes
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_configuration["TokensSettings:Secret"]);
+        var key = Encoding.ASCII.GetBytes(_tokensSettings.Secret);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
+            Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()) }),
             Expires = DateTime.UtcNow.AddMinutes(15),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
@@ -38,7 +40,7 @@ public class JwtService : IJwtService
             return null;
 
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_configuration["TokensSettings:Secret"]);
+        var key = Encoding.ASCII.GetBytes(_tokensSettings.Secret);
         try
         {
             tokenHandler.ValidateToken(token, new TokenValidationParameters
