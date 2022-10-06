@@ -4,7 +4,7 @@ using RaiffeisenClone.Persistence.Interfaces;
 
 namespace RaiffeisenClone.Persistence.Repositories;
 
-public class DepositRepository : IRepository<Deposit>
+public class DepositRepository : IDepositRepository
 {
     private readonly ApplicationDbContext _context;
 
@@ -18,18 +18,21 @@ public class DepositRepository : IRepository<Deposit>
     public async Task<Deposit?> GetByIdAsync(Guid id)
     {
         Deposit? deposit = await _context.Deposits.FindAsync(id);
-        _context.Entry(deposit).State = EntityState.Detached;
+        if (deposit is not null)
+            _context.Entry(deposit).State = EntityState.Detached;
         return deposit;
     }
 
-    public async Task AddAsync(Deposit obj)
+    public async Task<Guid> AddAsync(Deposit obj)
     {
+        obj.Id = Guid.NewGuid();
         await _context.Deposits.AddAsync(obj);
+        return obj.Id;
     }
 
-    public async Task DeleteAsync(Guid Id)
+    public async Task DeleteAsync(Guid id)
     {
-        Deposit? deposit = await _context.Deposits.FindAsync(Id);
+        Deposit? deposit = await _context.Deposits.FindAsync(id);
         if (deposit is not null)
         {
             _context.Deposits.Remove(deposit);

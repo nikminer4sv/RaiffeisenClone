@@ -4,7 +4,7 @@ using RaiffeisenClone.Persistence.Interfaces;
 
 namespace RaiffeisenClone.Persistence.Repositories;
 
-public class UserRepository : IRepository<User>
+public class UserRepository : IUserRepository
 {
     private readonly ApplicationDbContext _context;
 
@@ -12,7 +12,6 @@ public class UserRepository : IRepository<User>
     
     public async Task<IEnumerable<User>> GetAllAsync()
     {
-        
         return await _context.Users.ToListAsync();
     }
 
@@ -32,9 +31,11 @@ public class UserRepository : IRepository<User>
         return user;
     }
 
-    public async Task AddAsync(User obj)
+    public async Task<Guid> AddAsync(User obj)
     {
+        obj.Id = Guid.NewGuid();
         await _context.Users.AddAsync(obj);
+        return obj.Id;
     }
 
     public async Task DeleteAsync(Guid Id)

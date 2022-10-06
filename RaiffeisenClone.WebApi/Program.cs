@@ -1,7 +1,4 @@
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RaiffeisenClone.Persistence;
 using RaiffeisenClone.WebApi.Extensions;
@@ -41,8 +38,9 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddPersistence(builder.Configuration.GetConnectionString("MSSql"));
+builder.Services.AddPersistence(builder.Configuration.GetConnectionString("MSSqlLocal"));
 builder.Services.AddApplication();
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 var app = builder.Build();
 

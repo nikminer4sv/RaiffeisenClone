@@ -3,11 +3,8 @@ using System.Text.Json.Serialization;
 
 namespace RaiffeisenClone.Domain;
 
-public class RefreshToken
+public class RefreshToken : BaseEntity
 {
-    [Key]
-    [JsonIgnore]
-    public int Id { get; set; }
     public string Token { get; set; }
     public DateTime Expires { get; set; }
     public DateTime Created { get; set; }

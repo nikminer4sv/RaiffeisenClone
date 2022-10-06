@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RaiffeisenClone.Persistence;
+using RaiffeisenClone.Persistence.Interfaces;
 using RaiffeisenClone.Persistence.Repositories;
 
 namespace RaiffeisenClone.WebApi.Extensions;
@@ -12,8 +13,8 @@ public static class PersistenceExtension
         {
             options.UseSqlServer(connectionString, b => b.MigrationsAssembly("RaiffeisenClone.WebApi"));
         });
-        collection.AddScoped<UserRepository>();
-        collection.AddScoped<DepositRepository>();
+        collection.AddScoped<IUserRepository, UserRepository>();
+        collection.AddScoped<IDepositRepository, DepositRepository>();
         
         return collection;
     }

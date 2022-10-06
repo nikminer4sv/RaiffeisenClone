@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using RaiffeisenClone.Application.Interfaces;
 using RaiffeisenClone.Application.Services;
 using RaiffeisenClone.Application.ViewModels;
 
@@ -8,21 +9,21 @@ namespace RaiffeisenClone.WebApi.Controllers;
 [Route("/[controller]/[action]")]
 public class AuthController : ControllerBase
 {
-    private readonly AuthService _authService;
+    private readonly IAuthService _authService;
 
-    public AuthController(AuthService authService) => 
+    public AuthController(IAuthService authService) => 
         (_authService) = (authService);
 
     [HttpPost]
-    public async Task<IActionResult> Login(LoginViewModel model)
+    public async Task<IActionResult> Login([FromBody] LoginViewModel model)
     {
         var response = await _authService.Authenticate(model, ipAddress());
-        setTokenCookie(response.RefreshToken);
+        //setTokenCookie(response.RefreshToken);
         return Ok(response);
     }
     
     [HttpPost]
-    public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
+    public async Task<IActionResult> Register([FromBody] RegisterViewModel registerViewModel)
     {
         await _authService.Register(registerViewModel);
         return Ok();
@@ -38,7 +39,7 @@ public class AuthController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<IActionResult> RevokeToken(string? refreshToken)
+    public async Task<IActionResult> RevokeToken([FromBody] string? refreshToken)
     {
         var token = (refreshToken is null) ? Request.Cookies["refreshToken"] : refreshToken;
 

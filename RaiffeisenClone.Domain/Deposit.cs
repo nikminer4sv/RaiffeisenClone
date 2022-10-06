@@ -1,8 +1,7 @@
 namespace RaiffeisenClone.Domain;
 
-public class Deposit
+public class Deposit : BaseEntity
 {
-    public Guid Id { get; set; }
     public Guid UserId { get; set; }
     public DateTime Term { get; set; }
     public float Bid { get; set; }

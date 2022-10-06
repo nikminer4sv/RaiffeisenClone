@@ -12,8 +12,8 @@ using RaiffeisenClone.Persistence;
 namespace RaiffeisenClone.WebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220929163528_UserUpdatex2")]
-    partial class UserUpdatex2
+    [Migration("20221005234533_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,11 +57,9 @@ namespace RaiffeisenClone.WebApi.Migrations
 
             modelBuilder.Entity("RaiffeisenClone.Domain.RefreshToken", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
@@ -74,18 +72,15 @@ namespace RaiffeisenClone.WebApi.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ReasonRevoked")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReplacedByToken")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Revoked")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("RevokedByIp")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Token")

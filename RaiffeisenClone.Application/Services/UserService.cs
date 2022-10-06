@@ -1,16 +1,19 @@
 using AutoMapper;
 using RaiffeisenClone.Application.ViewModels;
+using RaiffeisenClone.Application.Helpers;
+using RaiffeisenClone.Application.Interfaces;
 using RaiffeisenClone.Domain;
+using RaiffeisenClone.Persistence.Interfaces;
 using RaiffeisenClone.Persistence.Repositories;
 
 namespace RaiffeisenClone.Application.Services;
 
-public class UserService
+public class UserService : IUserService
 {
-    private readonly UserRepository _userRepository;
+    private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
     
-    public UserService(UserRepository userRepository, IMapper mapper) => 
+    public UserService(IUserRepository userRepository, IMapper mapper) => 
         (_userRepository, _mapper) = (userRepository, mapper);
 
     public async Task<IEnumerable<UserViewModel>> GetAllAsync()
@@ -48,11 +51,10 @@ public class UserService
             throw new Exception("Username is already taken");
         
         User user = _mapper.Map<User>(registerViewModel);
-        user.Id = Guid.NewGuid();
-        user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerViewModel.Password);
-        await _userRepository.AddAsync(user);
+        user.PasswordHash = HashHelper.HashPassword(registerViewModel.Password);
+        var id = await _userRepository.AddAsync(user);
         await _userRepository.SaveAsync();
-        return user.Id;
+        return id;
     }
     
     public async Task UpdateAsync(User user)

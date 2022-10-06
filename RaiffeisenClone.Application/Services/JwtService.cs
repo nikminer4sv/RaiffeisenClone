@@ -4,12 +4,13 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using RaiffeisenClone.Application.Interfaces;
 using RaiffeisenClone.Domain;
 using RaiffeisenClone.Persistence;
 
 namespace RaiffeisenClone.Application.Services;
 
-public class JwtService
+public class JwtService : IJwtService
 {
     private readonly ApplicationDbContext _context;
     private readonly IConfiguration _configuration;

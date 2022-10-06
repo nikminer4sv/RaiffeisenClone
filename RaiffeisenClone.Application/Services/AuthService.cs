@@ -1,34 +1,32 @@
-using System.Collections;
-using AutoMapper;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using RaiffeisenClone.Application.Exceptions;
 using RaiffeisenClone.Application.ViewModels;
+using RaiffeisenClone.Application.Helpers;
+using RaiffeisenClone.Application.Interfaces;
 using RaiffeisenClone.Domain;
 
 namespace RaiffeisenClone.Application.Services;
 
-public class  AuthService
+public class AuthService : IAuthService
 {
-    private readonly UserService _userService;
+    private readonly IUserService _userService;
     private readonly IConfiguration _configuration;
-    private readonly JwtService _jwtService;
-    private readonly ILogger<AuthService> _logger;
+    private readonly IJwtService _jwtService;
 
-    public AuthService(UserService userService, IConfiguration configuration, JwtService jwtService, ILogger<AuthService> logger) =>
-        (_userService, _configuration, _jwtService,_logger) = (userService, configuration, jwtService, logger);
+    public AuthService(IUserService userService, IConfiguration configuration, IJwtService jwtService) =>
+        (_userService, _configuration, _jwtService) = (userService, configuration, jwtService);
     
     public async Task<AuthenticateResponse> Authenticate(LoginViewModel model, string ipAddress)
     { 
         User? user = await _userService.GetByUsernameAsync(model.Username);
 
         // validate
-        if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))
+        if (user == null || !HashHelper.VerifyPassword(model.Password, user.PasswordHash)) 
             throw new AppException("Username or password is incorrect");
 
         // authentication successful so generate jwt and refresh tokens
-        var jwtToken = _jwtService.GenerateJwtToken(user);
-        var refreshToken = _jwtService.GenerateRefreshToken(ipAddress);
+        (var jwtToken, var refreshToken) = generateTokens(user, ipAddress);
+        
         user.RefreshTokens.Add(refreshToken);
 
         // remove old refresh tokens from user
@@ -132,5 +130,10 @@ public class  AuthService
         token.RevokedByIp = ipAddress;
         token.ReasonRevoked = reason;
         token.ReplacedByToken = replacedByToken;
+    }
+
+    private (string, RefreshToken) generateTokens(User user, string ip)
+    {
+        return (_jwtService.GenerateJwtToken(user), _jwtService.GenerateRefreshToken(ip));
     }
 }
