@@ -2,7 +2,6 @@ using RaiffeisenClone.Domain;
 
 namespace RaiffeisenClone.Persistence.Interfaces;
 
-public interface IDepositRepository : IRepository<Deposit>
+public interface IDepositRepository : IGenericRepository<Deposit>
 {
-    
 }

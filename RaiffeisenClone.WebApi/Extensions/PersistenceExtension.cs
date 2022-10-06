@@ -13,8 +13,7 @@ public static class PersistenceExtension
         {
             options.UseSqlServer(connectionString, b => b.MigrationsAssembly("RaiffeisenClone.WebApi"));
         });
-        collection.AddScoped<IUserRepository, UserRepository>();
-        collection.AddScoped<IDepositRepository, DepositRepository>();
+        collection.AddTransient<IUnitOfWork, UnitOfWork>();
         
         return collection;
     }

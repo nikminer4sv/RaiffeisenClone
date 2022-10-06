@@ -10,20 +10,20 @@ namespace RaiffeisenClone.Application.Services;
 
 public class UserService : IUserService
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     
-    public UserService(IUserRepository userRepository, IMapper mapper) => 
-        (_userRepository, _mapper) = (userRepository, mapper);
+    public UserService(IUnitOfWork unitOfWork, IMapper mapper) => 
+        (_unitOfWork, _mapper) = (unitOfWork, mapper);
 
     public async Task<IEnumerable<UserViewModel>> GetAllAsync()
     {
-        return (await _userRepository.GetAllAsync()).Select(u => _mapper.Map<UserViewModel>(u));
+        return (await _unitOfWork.Users.GetAllAsync()).Select(u => _mapper.Map<UserViewModel>(u));
     }
     
     public async Task<User> GetByIdAsync(Guid id)
     {
-        User? user = await _userRepository.GetByIdAsync(id);
+        User? user = await _unitOfWork.Users.GetByIdAsync(id);
         if (user is null)
             throw new KeyNotFoundException("User not found.");
         return user;
@@ -31,7 +31,7 @@ public class UserService : IUserService
 
     public async Task<User?> GetByUsernameAsync(string username)
     {
-        User? user = await _userRepository.GetByUsernameAsync(username);
+        User? user = await _unitOfWork.Users.GetByUsernameAsync(username);
         if (username is null)
             throw new KeyNotFoundException("User not found.");
         return user;
@@ -39,7 +39,7 @@ public class UserService : IUserService
 
     public async Task<User?> GetByRefreshToken(string token)
     {
-        User? user = await _userRepository.GetUserByRefreshToken(token);
+        User? user = await _unitOfWork.Users.GetUserByRefreshToken(token);
         if (user is null)
             throw new KeyNotFoundException("User not found.");
         return user;
@@ -52,32 +52,32 @@ public class UserService : IUserService
         
         User user = _mapper.Map<User>(registerViewModel);
         user.PasswordHash = HashHelper.HashPassword(registerViewModel.Password);
-        var id = await _userRepository.AddAsync(user);
-        await _userRepository.SaveAsync();
+        var id = await _unitOfWork.Users.AddAsync(user);
+        await _unitOfWork.SaveAsync();
         return id;
     }
     
     public async Task UpdateAsync(User user)
     {
-        bool exist = await _userRepository.ContainsAsync(user.Id);
+        bool exist = await _unitOfWork.Users.ContainsAsync(user.Id);
         if (!exist)
             throw new KeyNotFoundException("User not found.");
-        await _userRepository.UpdateAsync(user);
-        await _userRepository.SaveAsync();
+        await _unitOfWork.Users.UpdateAsync(user);
+        await _unitOfWork.SaveAsync();
     }
     
     public async Task DeleteAsync(Guid id)
     {
-        bool exist = await _userRepository.ContainsAsync(id);
-        if (!exist)
+        var user = await _unitOfWork.Users.GetByIdAsync(id);
+        if (user is null)
             throw new KeyNotFoundException("User not found.");
-        await _userRepository.DeleteAsync(id);
-        await _userRepository.SaveAsync();
+        await _unitOfWork.Users.DeleteAsync(user);
+        await _unitOfWork.SaveAsync();
     }
 
     public async Task<bool> IsUserExist(string username)
     {
-        User? user = await _userRepository.GetByUsernameAsync(username);
+        User? user = await _unitOfWork.Users.GetByUsernameAsync(username);
         if (user is null)
             return false;
         return true;

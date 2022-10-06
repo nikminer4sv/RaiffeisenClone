@@ -9,20 +9,20 @@ namespace RaiffeisenClone.Application.Services;
 
 public class DepositService : IDepositService
 {
-    private readonly IDepositRepository _depositRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public DepositService(IDepositRepository depositRepository, IMapper mapper) => 
-        (_depositRepository, _mapper) = (depositRepository, mapper);
+    public DepositService(IUnitOfWork unitOfWork, IMapper mapper) => 
+        (_unitOfWork, _mapper) = (unitOfWork, mapper);
 
     public async Task<IEnumerable<DepositViewModel>> GetAllAsync(Guid userId)
     {
-        return (await _depositRepository.GetAllAsync()).Where(d => d.UserId == userId).Select(d => _mapper.Map<DepositViewModel>(d));
+        return (await _unitOfWork.Deposits.GetAllAsync()).Where(d => d.UserId == userId).Select(d => _mapper.Map<DepositViewModel>(d));
     }
     
     public async Task<DepositViewModel> GetByIdAsync(Guid id, Guid userId)
     {
-        Deposit? deposit = await _depositRepository.GetByIdAsync(id);
+        Deposit? deposit = await _unitOfWork.Deposits.GetByIdAsync(id);
         if (deposit is null || deposit.UserId != userId)
             throw new KeyNotFoundException("Deposit not found.");
         DepositViewModel depositViewModel = _mapper.Map<DepositViewModel>(deposit);
@@ -33,30 +33,30 @@ public class DepositService : IDepositService
     {
         Deposit deposit = _mapper.Map<Deposit>(depositViewModel);
         deposit.UserId = userId;
-        await _depositRepository.AddAsync(deposit);
-        await _depositRepository.SaveAsync();
+        await _unitOfWork.Deposits.AddAsync(deposit);
+        await _unitOfWork.SaveAsync();
         return deposit.Id;
     }
     
     public async Task<DepositUpdateViewModel> UpdateAsync(DepositUpdateViewModel depositUpdateViewModel, Guid userId)
     {
-        Deposit? temp = await _depositRepository.GetByIdAsync(depositUpdateViewModel.Id);
+        Deposit? temp = await _unitOfWork.Deposits.GetByIdAsync(depositUpdateViewModel.Id);
         if (temp?.UserId != userId)
             throw new KeyNotFoundException("Deposit not found.");
         
         temp = _mapper.Map<Deposit>(depositUpdateViewModel);
         temp.UserId = userId;
-        await _depositRepository.UpdateAsync(temp);
-        await _depositRepository.SaveAsync();
+        await _unitOfWork.Deposits.UpdateAsync(temp);
+        await _unitOfWork.SaveAsync();
         return depositUpdateViewModel;
     }
     
     public async Task DeleteAsync(Guid id, Guid userId)
     {
-        Deposit? temp = await _depositRepository.GetByIdAsync(id);
+        Deposit? temp = await _unitOfWork.Deposits.GetByIdAsync(id);
         if (temp is null || temp.UserId != userId)
             throw new KeyNotFoundException("Deposit not found.");
-        await _depositRepository.DeleteAsync(id);
-        await _depositRepository.SaveAsync();
+        await _unitOfWork.Deposits.DeleteAsync(temp);
+        await _unitOfWork.SaveAsync();
     }
 }
