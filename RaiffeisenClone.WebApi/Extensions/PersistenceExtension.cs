@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RaiffeisenClone.Persistence;
 using RaiffeisenClone.Persistence.Interfaces;
-using RaiffeisenClone.Persistence.Repositories;
 
 namespace RaiffeisenClone.WebApi.Extensions;
 

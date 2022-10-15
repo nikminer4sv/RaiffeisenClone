@@ -4,7 +4,6 @@ using RaiffeisenClone.Application.Helpers;
 using RaiffeisenClone.Application.Interfaces;
 using RaiffeisenClone.Domain;
 using RaiffeisenClone.Persistence.Interfaces;
-using RaiffeisenClone.Persistence.Repositories;
 
 namespace RaiffeisenClone.Application.Services;
 

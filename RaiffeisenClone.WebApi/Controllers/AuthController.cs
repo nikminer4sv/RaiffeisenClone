@@ -33,7 +33,7 @@ public class AuthController : BaseController
     {
         var refreshToken = Request.Cookies["refreshToken"];
         var response = await _authService.RefreshToken(refreshToken, ipAddress());
-        setTokenCookie(response.RefreshToken);
+        //setTokenCookie(response.RefreshToken);
         return Ok(response);
     }
     

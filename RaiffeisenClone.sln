@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaiffeisenClone.WebApi", "R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaiffeisenClone.Application", "RaiffeisenClone.Application\RaiffeisenClone.Application.csproj", "{AE898460-860D-4727-96DB-A1F528C0429F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaiffeisenClone.Tests", "RaiffeisenClone.Tests\RaiffeisenClone.Tests.csproj", "{FEBB7BAF-27CA-4F5A-AB2D-A29F8AA6D747}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{AE898460-860D-4727-96DB-A1F528C0429F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE898460-860D-4727-96DB-A1F528C0429F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE898460-860D-4727-96DB-A1F528C0429F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEBB7BAF-27CA-4F5A-AB2D-A29F8AA6D747}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEBB7BAF-27CA-4F5A-AB2D-A29F8AA6D747}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEBB7BAF-27CA-4F5A-AB2D-A29F8AA6D747}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEBB7BAF-27CA-4F5A-AB2D-A29F8AA6D747}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

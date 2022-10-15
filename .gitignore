@@ -13,6 +13,7 @@
 *.sqlite
 *.sqlite-shm
 *.sqlite-wal
+.fleet/
 
 
 # User-specific files (MonoDevelop/Xamarin Studio)

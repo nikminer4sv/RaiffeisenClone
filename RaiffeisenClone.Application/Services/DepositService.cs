@@ -39,7 +39,7 @@ public class DepositService : IDepositService
     
     public async Task<DepositUpdateViewModel> UpdateAsync(DepositUpdateViewModel depositUpdateViewModel, Guid userId)
     {
-        Deposit? temp = await _unitOfWork.Deposits.GetByIdAsync(depositUpdateViewModel.Id);
+        var temp = await _unitOfWork.Deposits.GetByIdAsync(depositUpdateViewModel.Id);
         if (temp?.UserId != userId)
             throw new KeyNotFoundException("Deposit not found.");
         
@@ -52,7 +52,7 @@ public class DepositService : IDepositService
     
     public async Task DeleteAsync(Guid id, Guid userId)
     {
-        Deposit? temp = await _unitOfWork.Deposits.GetByIdAsync(id);
+        var temp = await _unitOfWork.Deposits.GetByIdAsync(id);
         if (temp is null || temp.UserId != userId)
             throw new KeyNotFoundException("Deposit not found.");
         await _unitOfWork.Deposits.DeleteAsync(temp);
