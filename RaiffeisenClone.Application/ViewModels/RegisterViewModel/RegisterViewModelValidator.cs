@@ -36,6 +36,13 @@ public class RegisterViewModelValidator : AbstractValidator<RegisterViewModel>
             .Length(6,20)
             .WithMessage("Username length must be between 6 and 20");
 
+        RuleFor(model => model.Email)
+            .Cascade(CascadeMode.Stop)
+            .NotEmpty()
+            .WithMessage("Email is empty")
+            .EmailAddress()
+            .WithMessage("Invalid email");
+
         RuleFor(model => model.DateOfBirth)
             .Cascade(CascadeMode.Stop)
             .NotEmpty()

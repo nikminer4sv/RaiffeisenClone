@@ -26,7 +26,7 @@ public class DepositServiceTests {
     {
         // ARRANGE
         _unitOfWorkMock.Setup(m => m.Deposits.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(() => null);
-        var depositService = new DepositService(_unitOfWorkMock.Object, _mapper);
+        var depositService = new DepositService(_unitOfWorkMock.Object, _mapper, new EmailSender());
 
         // ACT + ASSERT
         Assert.ThrowsAsync<KeyNotFoundException>(async () => await depositService.GetByIdAsync(Guid.NewGuid(), Guid.NewGuid()));
@@ -40,7 +40,7 @@ public class DepositServiceTests {
         var deposit = new Deposit() { UserId = userId };
         var depositViewModel = _mapper.Map<DepositViewModel>(deposit);
         _unitOfWorkMock.Setup(m => m.Deposits.GetByIdAsync(deposit.Id)).ReturnsAsync(deposit);
-        var depositService = new DepositService(_unitOfWorkMock.Object, _mapper);
+        var depositService = new DepositService(_unitOfWorkMock.Object, _mapper, new EmailSender());
 
         // ACT
         var depositFromService = await depositService.GetByIdAsync(deposit.Id, userId);
@@ -59,7 +59,7 @@ public class DepositServiceTests {
         // ARRANGE
         _unitOfWorkMock.Setup(m => m.Deposits.AddAsync(It.IsAny<Deposit>()));
         _unitOfWorkMock.Setup(m => m.SaveAsync());
-        var depositService = new DepositService(_unitOfWorkMock.Object, _mapper);
+        var depositService = new DepositService(_unitOfWorkMock.Object, _mapper, new EmailSender());
 
         // ACT
         var id = Guid.NewGuid();
@@ -74,7 +74,7 @@ public class DepositServiceTests {
     public async Task DeleteAsync_ThrowsKeyNotFound()
     {
         _unitOfWorkMock.Setup(m => m.Deposits.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(() => null);
-        var depositService = new DepositService(_unitOfWorkMock.Object, _mapper);
+        var depositService = new DepositService(_unitOfWorkMock.Object, _mapper, new EmailSender());
 
         // ACT + ASSERT
         Assert.ThrowsAsync<KeyNotFoundException>(async () => await depositService.DeleteAsync(It.IsAny<Guid>(), It.IsAny<Guid>()));
@@ -86,7 +86,7 @@ public class DepositServiceTests {
         // ARRANGE
         _unitOfWorkMock.Setup(m => m.Deposits.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(new Deposit());
         _unitOfWorkMock.Setup(m => m.Deposits.DeleteAsync(It.IsAny<Deposit>()));
-        var depositService = new DepositService(_unitOfWorkMock.Object, _mapper);
+        var depositService = new DepositService(_unitOfWorkMock.Object, _mapper, new EmailSender());
 
         // ACT
         await depositService.DeleteAsync(It.IsAny<Guid>(), It.IsAny<Guid>());
@@ -100,7 +100,7 @@ public class DepositServiceTests {
     public async Task UpdateAsync_ThrowsKeyNotFound()
     {
         _unitOfWorkMock.Setup(m => m.Deposits.ContainsAsync(It.IsAny<Deposit>())).ReturnsAsync(() => false);
-        var depositService = new DepositService(_unitOfWorkMock.Object, _mapper);
+        var depositService = new DepositService(_unitOfWorkMock.Object, _mapper, new EmailSender());
 
         // ACT + ASSERT
         Assert.ThrowsAsync<KeyNotFoundException>(async () => await depositService.UpdateAsync(_mapper.Map<DepositUpdateViewModel>(It.IsAny<Deposit>()), It.IsAny<Guid>()));
@@ -112,7 +112,7 @@ public class DepositServiceTests {
         // ARRANGE
         _unitOfWorkMock.Setup(m => m.Deposits.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(new Deposit() {UserId = Guid.Empty});
         _unitOfWorkMock.Setup(m => m.Deposits.UpdateAsync(It.IsAny<Deposit>()));
-        var depositService = new DepositService(_unitOfWorkMock.Object, _mapper);
+        var depositService = new DepositService(_unitOfWorkMock.Object, _mapper, new EmailSender());
 
         // ACT
         await depositService.UpdateAsync(new DepositUpdateViewModel(), Guid.Empty);

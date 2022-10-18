@@ -9,6 +9,7 @@ public class User : BaseEntity
     public DateTime DateOfBirth { get; set; }
     
     public string Username { get; set; }
+    public string Email { get; set; }
 
     [JsonIgnore]
     public string PasswordHash { get; set; }

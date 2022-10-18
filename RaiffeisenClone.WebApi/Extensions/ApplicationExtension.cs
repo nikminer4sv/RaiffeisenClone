@@ -16,6 +16,7 @@ public static class ApplicationExtension
         collection.AddScoped<IDepositService, DepositService>();
         collection.AddScoped<IJwtService, JwtService>();
         collection.AddScoped<IAuthService, AuthService>();
+        collection.AddSingleton<IEmailSender, EmailSender>();
         return collection;
     }
 }

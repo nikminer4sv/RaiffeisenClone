@@ -10,6 +10,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaiffeisenClone.Application
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaiffeisenClone.Tests", "RaiffeisenClone.Tests\RaiffeisenClone.Tests.csproj", "{FEBB7BAF-27CA-4F5A-AB2D-A29F8AA6D747}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EmailWorker", "EmailWorker", "{93BB09BE-F011-42D4-AA62-D313CA7406C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailWorker", "EmailWorker\EmailWorker.csproj", "{78BA3C78-1B01-44EA-874E-31B08FD023D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +40,12 @@ Global
 		{FEBB7BAF-27CA-4F5A-AB2D-A29F8AA6D747}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEBB7BAF-27CA-4F5A-AB2D-A29F8AA6D747}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEBB7BAF-27CA-4F5A-AB2D-A29F8AA6D747}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78BA3C78-1B01-44EA-874E-31B08FD023D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78BA3C78-1B01-44EA-874E-31B08FD023D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78BA3C78-1B01-44EA-874E-31B08FD023D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78BA3C78-1B01-44EA-874E-31B08FD023D7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{78BA3C78-1B01-44EA-874E-31B08FD023D7} = {93BB09BE-F011-42D4-AA62-D313CA7406C9}
 	EndGlobalSection
 EndGlobal

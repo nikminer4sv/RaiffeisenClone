@@ -10,9 +10,10 @@ public class DepositService : IDepositService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IEmailSender _emailSender;
 
-    public DepositService(IUnitOfWork unitOfWork, IMapper mapper) => 
-        (_unitOfWork, _mapper) = (unitOfWork, mapper);
+    public DepositService(IUnitOfWork unitOfWork, IMapper mapper, IEmailSender emailSender) => 
+        (_unitOfWork, _mapper, _emailSender) = (unitOfWork, mapper, emailSender);
 
     public async Task<IEnumerable<DepositViewModel>> GetAllAsync(Guid userId)
     {
@@ -31,9 +32,11 @@ public class DepositService : IDepositService
     public async Task<Guid> AddAsync(DepositViewModel depositViewModel, Guid userId)
     {
         Deposit deposit = _mapper.Map<Deposit>(depositViewModel);
+        var user = await _unitOfWork.Users.GetByIdAsync(userId);
         deposit.UserId = userId;
         await _unitOfWork.Deposits.AddAsync(deposit);
         await _unitOfWork.SaveAsync();
+        _emailSender.Send(user!.Email);
         return deposit.Id;
     }
     
