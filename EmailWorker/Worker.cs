@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json;
+using EmailWorker.Entities;
 using EmailWorker.Interfaces;
 using EmailWorker.Services;
 using RabbitMQ.Client;
@@ -13,26 +14,31 @@ public class Worker : BackgroundService
     private readonly IEmailSender _emailSender; 
     private readonly ILogger<Worker> _logger;
     private readonly DbService _db;
-    private ConnectionFactory _connectionFactory;
-    private IConnection? _connection;
+    private readonly IConnection _connection;
     private IModel _channel;
     
     private const string EmailAddDepositQueue = "email_add_deposit";
     private const string Subject = "Notification";
     private const string Body = "Deposit has been created.";
 
-    public Worker(ILogger<Worker> logger, IEmailSender emailSender, DbService db) => 
-        (_logger, _emailSender, _db) = (logger, emailSender, db);
+    public Worker(ILogger<Worker> logger, IEmailSender emailSender, 
+        DbService db, IConfiguration configuration)
+    {
+        _logger = logger;
+        _emailSender = emailSender;
+        _db = db;
+        
+        var connectionFactory = new ConnectionFactory
+        {
+            HostName = configuration.GetConnectionString("rabbitmq"),
+            DispatchConsumersAsync = true,
+        };
+        _connection = connectionFactory.CreateConnection();
+    } 
+        
 
     public override Task StartAsync(CancellationToken cancellationToken)
     {
-        _connectionFactory = new ConnectionFactory
-        {
-            HostName = "rabbitmq",
-            DispatchConsumersAsync = true,
-        };
-        _connection = _connectionFactory.CreateConnection();
-
         _channel = _connection.CreateModel();
         _channel.QueueDeclare(EmailAddDepositQueue, exclusive: false);
         _channel.BasicQos(0, 1, false);
@@ -53,7 +59,7 @@ public class Worker : BackgroundService
             {
                 var email = JsonSerializer.Deserialize<string>(request);
                 _emailSender.Send(email, Subject, Body);
-                await _db.Add(email);
+                await _db.Add(new EmailDto {Email = email});
                 _channel.BasicAck(ea.DeliveryTag, false);
             }
             catch (JsonException)
@@ -79,7 +85,7 @@ public class Worker : BackgroundService
     public override async Task StopAsync(CancellationToken cancellationToken)
     {
         await base.StopAsync(cancellationToken);
-        _connection!.Close();
+        _connection.Close();
         _logger.LogInformation("RabbitMQ connection is closed.");
     }
 }
