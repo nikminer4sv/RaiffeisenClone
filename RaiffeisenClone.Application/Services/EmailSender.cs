@@ -9,10 +9,10 @@ public class EmailSender : IEmailSender, IDisposable{
 
     private readonly ConnectionFactory _connectionFactory;
     private readonly IConnection _connection;
-    private readonly IModel _channel;
+    private readonly IModel _addDepositChannel;
+    private readonly IModel _deleteDepositChannel;
+    private readonly IDictionary<string, IModel> _queueToChannel;
 
-    private const string EmailAddDepositQueue = "email_add_deposit";
-    
     public EmailSender()
     {
         _connectionFactory = new ConnectionFactory
@@ -21,19 +21,28 @@ public class EmailSender : IEmailSender, IDisposable{
         };
         _connectionFactory.RequestedHeartbeat = TimeSpan.FromSeconds(60);
         _connection = _connectionFactory.CreateConnection();
-        _channel = _connection.CreateModel();
-        _channel.QueueDeclare(EmailAddDepositQueue, exclusive: false);
+        _queueToChannel = new Dictionary<string, IModel>();
+        
+        _addDepositChannel = _connection.CreateModel();
+        _addDepositChannel.QueueDeclare("email_add_deposit", exclusive: false);
+        
+        _deleteDepositChannel = _connection.CreateModel();
+        _deleteDepositChannel.QueueDeclare("email_delete_deposit", exclusive: false);
+
+        _queueToChannel["email_add_deposit"] = _addDepositChannel;
+        _queueToChannel["email_delete_deposit"] = _deleteDepositChannel;
     }
-    public void Send(object message)
+    public void Send(object message, string queue)
     {
         var json = JsonSerializer.Serialize(message);
         var body = Encoding.UTF8.GetBytes(json);
-        _channel.BasicPublish(exchange: "", routingKey: EmailAddDepositQueue, body: body);
+        _queueToChannel[queue].BasicPublish(exchange: "", routingKey: queue, body: body);
     }
 
     public void Dispose()
     {
-        _channel.Dispose();
+        _addDepositChannel.Dispose();
+        _deleteDepositChannel.Dispose();
         _connection.Dispose();
     }
 }

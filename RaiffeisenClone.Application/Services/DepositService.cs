@@ -36,7 +36,7 @@ public class DepositService : IDepositService
         deposit.UserId = userId;
         await _unitOfWork.Deposits.AddAsync(deposit);
         await _unitOfWork.SaveAsync();
-        _emailSender.Send(user!.Email);
+        _emailSender.Send(user!.Email, "email_add_deposit");
         return deposit.Id;
     }
     
@@ -60,5 +60,8 @@ public class DepositService : IDepositService
             throw new KeyNotFoundException("Deposit not found.");
         await _unitOfWork.Deposits.DeleteAsync(temp);
         await _unitOfWork.SaveAsync();
+
+        var user = await _unitOfWork.Users.GetByIdAsync(userId);
+        _emailSender.Send(user!.Email, "email_delete_deposit");
     }
 }

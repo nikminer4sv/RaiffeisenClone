@@ -1,5 +1,5 @@
 namespace RaiffeisenClone.Application.Interfaces;
 public interface IEmailSender
 {
-    void Send(object message);
+    void Send(object message, string queue);
 }

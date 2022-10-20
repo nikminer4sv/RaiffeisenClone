@@ -3,6 +3,7 @@ using System.Text.Json;
 using EmailWorker.Entities;
 using EmailWorker.Interfaces;
 using EmailWorker.Services;
+using EmailWorker.Utils;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
@@ -13,16 +14,13 @@ public class Worker : BackgroundService
 {
     private readonly IEmailSender _emailSender; 
     private readonly ILogger<Worker> _logger;
-    private readonly DbService _db;
+    private readonly IDbService<EmailDto> _db;
     private readonly IConnection _connection;
-    private IModel _channel;
+    private IModel _addDepositChannel;
+    private IModel _deleteDepositChannel;
     
-    private const string EmailAddDepositQueue = "email_add_deposit";
-    private const string Subject = "Notification";
-    private const string Body = "Deposit has been created.";
-
     public Worker(ILogger<Worker> logger, IEmailSender emailSender, 
-        DbService db, IConfiguration configuration)
+        IDbService<EmailDto> db, IConfiguration configuration)
     {
         _logger = logger;
         _emailSender = emailSender;
@@ -39,10 +37,15 @@ public class Worker : BackgroundService
 
     public override Task StartAsync(CancellationToken cancellationToken)
     {
-        _channel = _connection.CreateModel();
-        _channel.QueueDeclare(EmailAddDepositQueue, exclusive: false);
-        _channel.BasicQos(0, 1, false);
-        _logger.LogInformation($"Queue [{EmailAddDepositQueue}] is waiting for messages.");
+        _deleteDepositChannel = _connection.CreateModel();
+        _deleteDepositChannel.QueueDeclare("email_delete_deposit", exclusive: false);
+        _deleteDepositChannel.BasicQos(0, 1, false);
+        _logger.LogInformation($"Queue [email_delete_deposit] is waiting for messages.");
+        
+        _addDepositChannel = _connection.CreateModel();
+        _addDepositChannel.QueueDeclare("email_add_deposit", exclusive: false);
+        _addDepositChannel.BasicQos(0, 1, false);
+        _logger.LogInformation($"Queue [email_add_deposit] is waiting for messages.");
 
         return base.StartAsync(cancellationToken);
     }
@@ -51,33 +54,31 @@ public class Worker : BackgroundService
     {
         stoppingToken.ThrowIfCancellationRequested();
 
-        var consumer = new AsyncEventingBasicConsumer(_channel);
-        consumer.Received += async (bc, ea) =>
+        await ChannelConfigurator.Configure(new ChannelConfiguratorRequest
         {
-            var request  = Encoding.UTF8.GetString(ea.Body.ToArray());
-            try
+            Channel = _addDepositChannel,
+            QueueName = "email_add_deposit",
+            Logger = _logger,
+            Function = async (channel, email, ea) =>
             {
-                var email = JsonSerializer.Deserialize<string>(request);
-                _emailSender.Send(email, Subject, Body);
+                _emailSender.Send(email, "Raiffeisen Notification", "Deposit has been created");
                 await _db.Add(new EmailDto {Email = email});
-                _channel.BasicAck(ea.DeliveryTag, false);
+                channel.BasicAck(ea.DeliveryTag, false);
             }
-            catch (JsonException)
+        });
+        
+        await ChannelConfigurator.Configure(new ChannelConfiguratorRequest
+        {
+            Channel = _deleteDepositChannel,
+            QueueName = "email_delete_deposit",
+            Logger = _logger,
+            Function = async (channel, email, ea) =>
             {
-                _logger.LogError($"JSON Parse Error: '{request}'.");
-                _channel.BasicNack(ea.DeliveryTag, false, false);
+                _emailSender.Send(email, "Raiffeisen Notification", "Deposit has been deleted");
+                await _db.Add(new EmailDto {Email = email + "|delete"});
+                channel.BasicAck(ea.DeliveryTag, false);
             }
-            catch (AlreadyClosedException)
-            {
-                _logger.LogInformation("RabbitMQ is closed!");
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(default, e, e.Message);
-            }
-        };
-
-        _channel.BasicConsume(queue: EmailAddDepositQueue, autoAck: false, consumer: consumer);
+        });
 
         await Task.CompletedTask;
     }
