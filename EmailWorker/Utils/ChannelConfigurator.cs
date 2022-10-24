@@ -1,7 +1,5 @@
 using System.Text;
 using System.Text.Json;
-using EmailWorker.Entities;
-using EmailWorker.Interfaces;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
@@ -36,5 +34,15 @@ public static class ChannelConfigurator
             }
         };
         dto.Channel.BasicConsume(queue: dto.QueueName, autoAck: false, consumer: consumer);
+    }
+
+    public static IModel CreateChannel(string queueName, IConnection connection, ILogger<Worker> logger)
+    {
+        
+        var channel = connection.CreateModel();
+        channel.QueueDeclare(queueName, exclusive: false);
+        channel.BasicQos(0, 1, false);
+        logger.LogInformation($"Queue [{queueName}] is waiting for messages.");
+        return channel;
     }
 }

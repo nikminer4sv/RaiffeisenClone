@@ -50,7 +50,7 @@ services:
     restart: always
     depends_on:
       - rabbitmq
-    entrypoint: ["./wait-for-it.sh", "rabbitmq:5672", "--", "./EmailWorker"]
+    entrypoint: ["./wait-for-it.sh", "rabbitmq:5672", "-t", "60", "--", "./EmailWorker"]
 
   mongodb:
     image: mongo:5.0

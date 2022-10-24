@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Http;
 
 namespace RaiffeisenClone.Domain;
 
@@ -14,5 +15,8 @@ public class User : BaseEntity
     [JsonIgnore]
     public string PasswordHash { get; set; }
 
-    [JsonIgnore] public List<RefreshToken> RefreshTokens { get; set; } = new();
+    [JsonIgnore] 
+    public List<RefreshToken> RefreshTokens { get; set; } = new();
+    [JsonIgnore]
+    public Guid? AvatarId { get; set; }
 }

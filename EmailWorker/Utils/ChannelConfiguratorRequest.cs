@@ -1,5 +1,3 @@
-using EmailWorker.Entities;
-using EmailWorker.Interfaces;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 

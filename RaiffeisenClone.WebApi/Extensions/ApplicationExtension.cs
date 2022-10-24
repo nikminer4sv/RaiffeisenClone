@@ -17,6 +17,7 @@ public static class ApplicationExtension
         collection.AddScoped<IJwtService, JwtService>();
         collection.AddScoped<IAuthService, AuthService>();
         collection.AddSingleton<IEmailSender, EmailSender>();
+        collection.AddScoped<IAvatarService, FirebaseAvatarService>();
         return collection;
     }
 }

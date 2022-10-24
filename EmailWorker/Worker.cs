@@ -1,12 +1,7 @@
-using System.Text;
-using System.Text.Json;
 using EmailWorker.Entities;
 using EmailWorker.Interfaces;
-using EmailWorker.Services;
 using EmailWorker.Utils;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using RabbitMQ.Client.Exceptions;
 
 namespace EmailWorker;
 
@@ -37,16 +32,8 @@ public class Worker : BackgroundService
 
     public override Task StartAsync(CancellationToken cancellationToken)
     {
-        _deleteDepositChannel = _connection.CreateModel();
-        _deleteDepositChannel.QueueDeclare("email_delete_deposit", exclusive: false);
-        _deleteDepositChannel.BasicQos(0, 1, false);
-        _logger.LogInformation($"Queue [email_delete_deposit] is waiting for messages.");
-        
-        _addDepositChannel = _connection.CreateModel();
-        _addDepositChannel.QueueDeclare("email_add_deposit", exclusive: false);
-        _addDepositChannel.BasicQos(0, 1, false);
-        _logger.LogInformation($"Queue [email_add_deposit] is waiting for messages.");
-
+        _deleteDepositChannel = ChannelConfigurator.CreateChannel("email_delete_deposit", _connection, _logger);
+        _addDepositChannel = ChannelConfigurator.CreateChannel("email_add_deposit", _connection, _logger);
         return base.StartAsync(cancellationToken);
     }
 
