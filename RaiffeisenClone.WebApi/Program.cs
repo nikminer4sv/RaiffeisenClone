@@ -1,5 +1,6 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -13,6 +14,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllers();
 builder.Services.Configure<TokensSettings>(builder.Configuration.GetSection("TokensSettings"));
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.ValueCountLimit = 10; //default 1024
+    options.ValueLengthLimit = int.MaxValue; //not recommended value
+    options.MultipartBodyLengthLimit = long.MaxValue; //not recommended value
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {

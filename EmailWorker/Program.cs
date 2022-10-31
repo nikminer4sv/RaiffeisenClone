@@ -8,7 +8,7 @@ IHost host = Host.CreateDefaultBuilder(args)
     {
         services.AddHostedService<Worker>();
         services.AddScoped<IEmailSender, EmailSender>();
-        services.AddScoped<IDbService<EmailDto>, DbService>();
+        services.AddSingleton<IDbService<EmailDto>, DbService>();
     })
     .Build();
 

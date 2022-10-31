@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RaiffeisenClone.Persistence;
 
@@ -11,9 +12,10 @@ using RaiffeisenClone.Persistence;
 namespace RaiffeisenClone.WebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221026133223_AvatarUpdatex2")]
+    partial class AvatarUpdatex2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,7 +147,9 @@ namespace RaiffeisenClone.WebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AvatarId");
+                    b.HasIndex("AvatarId")
+                        .IsUnique()
+                        .HasFilter("[AvatarId] IS NOT NULL");
 
                     b.ToTable("Users");
                 });
@@ -160,10 +164,16 @@ namespace RaiffeisenClone.WebApi.Migrations
             modelBuilder.Entity("RaiffeisenClone.Domain.User", b =>
                 {
                     b.HasOne("RaiffeisenClone.Domain.Avatar", "Avatar")
-                        .WithMany()
-                        .HasForeignKey("AvatarId");
+                        .WithOne("User")
+                        .HasForeignKey("RaiffeisenClone.Domain.User", "AvatarId");
 
                     b.Navigation("Avatar");
+                });
+
+            modelBuilder.Entity("RaiffeisenClone.Domain.Avatar", b =>
+                {
+                    b.Navigation("User")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("RaiffeisenClone.Domain.User", b =>

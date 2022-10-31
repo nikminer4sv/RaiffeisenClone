@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 
@@ -17,6 +18,9 @@ public class User : BaseEntity
 
     [JsonIgnore] 
     public List<RefreshToken> RefreshTokens { get; set; } = new();
+    
     [JsonIgnore]
+    public virtual Avatar Avatar { get; set; }
+    
     public Guid? AvatarId { get; set; }
 }

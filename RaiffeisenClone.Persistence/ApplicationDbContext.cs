@@ -20,6 +20,7 @@ public class ApplicationDbContext : DbContext
     {
         builder.ApplyConfiguration(new UserConfiguration());
         builder.ApplyConfiguration(new DepositConfiguration());
+        builder.ApplyConfiguration(new AvatarConfiguration());
         base.OnModelCreating(builder);
     }
 }

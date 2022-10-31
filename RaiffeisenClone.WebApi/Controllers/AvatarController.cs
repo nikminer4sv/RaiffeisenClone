@@ -13,7 +13,7 @@ public class AvatarController : BaseController
     public AvatarController(IAvatarService avatarService) => _avatarService = avatarService;
 
     [HttpPost]
-    public async Task<IActionResult> Upload([FromForm] IFormFile avatar)
+    public async Task<IActionResult> Upload([FromForm]IFormFile avatar)
     {
         if (avatar.Length > 0)
         {

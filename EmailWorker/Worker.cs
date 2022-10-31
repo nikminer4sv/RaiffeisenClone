@@ -24,6 +24,7 @@ public class Worker : BackgroundService
         var connectionFactory = new ConnectionFactory
         {
             HostName = configuration.GetConnectionString("rabbitmq"),
+            
             DispatchConsumersAsync = true,
         };
         _connection = connectionFactory.CreateConnection();

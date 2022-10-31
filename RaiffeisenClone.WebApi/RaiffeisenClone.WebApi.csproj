@@ -24,7 +24,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Resources\Images" />
       <Folder Include="Settings" />
     </ItemGroup>
 

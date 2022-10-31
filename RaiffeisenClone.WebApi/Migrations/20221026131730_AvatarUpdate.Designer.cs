@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RaiffeisenClone.Persistence;
 
@@ -11,9 +12,10 @@ using RaiffeisenClone.Persistence;
 namespace RaiffeisenClone.WebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221026131730_AvatarUpdate")]
+    partial class AvatarUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,6 +119,10 @@ namespace RaiffeisenClone.WebApi.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("AvatarId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AvatarId1")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DateOfBirth")
@@ -145,7 +151,9 @@ namespace RaiffeisenClone.WebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AvatarId");
+                    b.HasAlternateKey("AvatarId");
+
+                    b.HasIndex("AvatarId1");
 
                     b.ToTable("Users");
                 });
@@ -161,7 +169,9 @@ namespace RaiffeisenClone.WebApi.Migrations
                 {
                     b.HasOne("RaiffeisenClone.Domain.Avatar", "Avatar")
                         .WithMany()
-                        .HasForeignKey("AvatarId");
+                        .HasForeignKey("AvatarId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Avatar");
                 });

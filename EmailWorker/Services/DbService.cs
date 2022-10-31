@@ -1,6 +1,8 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using EmailWorker.Entities;
 using EmailWorker.Interfaces;
 using MongoDB.Driver;
+using RabbitMQ.Client;
 
 namespace EmailWorker.Services;
 
