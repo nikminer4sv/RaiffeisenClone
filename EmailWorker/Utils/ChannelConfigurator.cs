@@ -16,8 +16,17 @@ public static class ChannelConfigurator
             var request  = Encoding.UTF8.GetString(ea.Body.ToArray());
             try
             {
-                var email = JsonSerializer.Deserialize<string>(request);
-                dto.Function(dto.Channel, email!, ea);
+                try
+                {
+                    var email = JsonSerializer.Deserialize<string>(request);
+                    dto.Function(dto.Channel, email!, ea);
+                    dto.Channel.BasicAck(ea.DeliveryTag, false);
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e.Message);
+                    dto.Channel.BasicReject(ea.DeliveryTag, false);
+                }
             }
             catch (JsonException)
             {
@@ -37,11 +46,24 @@ public static class ChannelConfigurator
     }
 
     public static IModel CreateChannel(string queueName, IConnection connection, ILogger<Worker> logger)
-    {
-        
+    { 
         var channel = connection.CreateModel();
-        channel.QueueDeclare(queueName, exclusive: false);
-        channel.BasicQos(0, 1, false);
+        
+        channel.ExchangeDeclare($"{queueName}-dead-exchange", ExchangeType.Fanout);
+        
+        var queueArgs = new Dictionary<string, object>();
+        queueArgs["x-dead-letter-exchange"] = $"{queueName}-dead-exchange";
+        channel.QueueDeclare(queueName, exclusive: false, arguments: queueArgs);
+        
+        var deadLetterQueueArgs = new Dictionary<string, object>();
+        deadLetterQueueArgs["x-dead-letter-exchange"] = "amq.direct";
+        deadLetterQueueArgs["x-dead-letter-routing-key"] = queueName;
+        deadLetterQueueArgs["x-message-ttl"] = 30000;
+        channel.QueueDeclare($"{queueName}-dead-letter-queue", exclusive: false, arguments: deadLetterQueueArgs);
+        
+        channel.QueueBind(queueName, exchange: "amq.direct", routingKey: queueName);
+        channel.QueueBind($"{queueName}-dead-letter-queue", exchange: $"{queueName}-dead-exchange", routingKey: "");
+        
         logger.LogInformation($"Queue [{queueName}] is waiting for messages.");
         return channel;
     }

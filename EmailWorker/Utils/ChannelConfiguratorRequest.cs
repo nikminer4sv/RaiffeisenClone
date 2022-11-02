@@ -5,7 +5,7 @@ namespace EmailWorker.Utils;
 
 public class ChannelConfiguratorRequest
 {
-    public IModel Channel { get; set; }
+    public IModel Channel { get; set; } 
     
     public string QueueName { get; set; }
 

@@ -24,10 +24,8 @@ public class EmailSender : IEmailSender, IDisposable{
         _queueToChannel = new Dictionary<string, IModel>();
         
         _addDepositChannel = _connection.CreateModel();
-        _addDepositChannel.QueueDeclare("email_add_deposit", exclusive: false);
-        
+
         _deleteDepositChannel = _connection.CreateModel();
-        _deleteDepositChannel.QueueDeclare("email_delete_deposit", exclusive: false);
 
         _queueToChannel["email_add_deposit"] = _addDepositChannel;
         _queueToChannel["email_delete_deposit"] = _deleteDepositChannel;
@@ -36,7 +34,7 @@ public class EmailSender : IEmailSender, IDisposable{
     {
         var json = JsonSerializer.Serialize(message);
         var body = Encoding.UTF8.GetBytes(json);
-        _queueToChannel[queue].BasicPublish(exchange: "", routingKey: queue, body: body);
+        _queueToChannel[queue].BasicPublish(exchange: "amq.direct", routingKey: queue, body: body);
     }
 
     public void Dispose()

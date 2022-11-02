@@ -51,7 +51,6 @@ public class Worker : BackgroundService
             {
                 _emailSender.Send(email, "Raiffeisen Notification", "Deposit has been created");
                 await _db.Add(new EmailDto {Email = email});
-                channel.BasicAck(ea.DeliveryTag, false);
             }
         });
         
@@ -64,7 +63,6 @@ public class Worker : BackgroundService
             {
                 _emailSender.Send(email, "Raiffeisen Notification", "Deposit has been deleted");
                 await _db.Add(new EmailDto {Email = email + "|delete"});
-                channel.BasicAck(ea.DeliveryTag, false);
             }
         });
 

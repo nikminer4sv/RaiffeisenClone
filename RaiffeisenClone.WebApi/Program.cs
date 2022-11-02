@@ -62,6 +62,7 @@ builder.Services.AddAuthentication(config =>
         ValidateIssuer = false,
         ValidateAudience = false,
         ValidateIssuerSigningKey = true,
+        ValidateLifetime = false,
         RequireExpirationTime = false,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["TokensSettings:Secret"]))
     };
