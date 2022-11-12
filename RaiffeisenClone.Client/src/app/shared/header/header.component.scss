@@ -1,0 +1,43 @@
+:host div {
+  background-color: var(--dark-background);
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  width: 100%;
+
+  li {
+
+    float: left;
+
+    &:nth-last-child(1) {
+      float: right;
+    }
+
+    &:nth-last-child(2) {
+      float: right;
+    }
+
+    a {
+
+      font-size: 16px;
+      display: block;
+      color: white;
+      text-align: center;
+      font-weight: bold;
+      padding: 14px 16px;
+      text-decoration: none;
+      text-transform: uppercase;
+
+      &:hover {
+        color: var(--secondary);
+        transition: 0.1s;
+      }
+
+    }
+
+  }
+}

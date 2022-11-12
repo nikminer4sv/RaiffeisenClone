@@ -1,0 +1,18 @@
+h1 {
+  font-size: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  height: 90vh;
+  font-weight: bold;
+  color: var(--primary);
+  i {
+    font-size: 4rem;
+    margin-left: 0.4rem;
+    &:hover {
+      transition: 0.1s;
+      color: var(--secondary);
+    }
+  }
+}
