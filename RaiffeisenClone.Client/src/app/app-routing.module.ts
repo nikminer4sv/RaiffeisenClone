@@ -4,13 +4,20 @@ import {MainPageComponent} from "./main-page/main-page.component";
 import {MainLayoutComponent} from "./shared/main-layout/main-layout.component";
 import {NotFoundComponent} from "./not-found/not-found.component";
 import {LoginComponent} from "./login/login.component";
+import {RegisterComponent} from "./register/register.component";
+import {DepositsComponent} from "./deposits/deposits.component";
+import {NewDepositComponent} from "./new-deposit/new-deposit.component";
+import {InfoComponent} from "./info/info.component";
 
 const routes: Routes = [
   {path: "", component: MainLayoutComponent, children: [
       {path: "", redirectTo: "/", pathMatch: "full"},
       {path: "", component: MainPageComponent},
       {path: "login", component: LoginComponent},
-      {path: "register", component: LoginComponent},
+      {path: "register", component: RegisterComponent},
+      {path: "deposits", component: DepositsComponent},
+      {path: "deposits/add", component: NewDepositComponent},
+      {path: "info", component: InfoComponent},
       {path: "**", component: NotFoundComponent}
     ]},
 ];

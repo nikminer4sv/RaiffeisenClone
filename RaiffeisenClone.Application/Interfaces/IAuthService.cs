@@ -7,7 +7,7 @@ public interface IAuthService : IService
 {
     Task<AuthenticateResponse> Authenticate(LoginViewModel model, string ipAddress);
 
-    Task Register(RegisterViewModel registerViewModel);
+    Task<RegisterResponse> Register(RegisterViewModel registerViewModel);
 
     Task<AuthenticateResponse> RefreshToken(string token, string ipAddress);
 

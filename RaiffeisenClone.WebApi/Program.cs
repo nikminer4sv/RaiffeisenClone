@@ -12,6 +12,12 @@ using RaiffeisenClone.WebApi.Middlewares;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddCors(o => o.AddPolicy("AllPolicy", policy =>
+{
+    policy.AllowAnyOrigin(); 
+    policy.AllowAnyMethod();
+    policy.AllowAnyHeader();
+}));
 builder.Services.AddControllers();
 builder.Services.Configure<TokensSettings>(builder.Configuration.GetSection("TokensSettings"));
 builder.Services.Configure<FormOptions>(options =>
@@ -77,6 +83,7 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    app.UseCors("AllPolicy");
     app.UseSwagger();
     app.UseSwaggerUI();
 }

@@ -38,9 +38,10 @@ public class AuthService : IAuthService
         return new AuthenticateResponse(user, jwtToken, refreshToken.Token);
     }
     
-    public async Task Register(RegisterViewModel registerViewModel)
+    public async Task<RegisterResponse> Register(RegisterViewModel registerViewModel)
     {
         await _userService.AddAsync(registerViewModel);
+        return new RegisterResponse(registerViewModel.Username, registerViewModel.Password);
     }
     
     public async Task<AuthenticateResponse> RefreshToken(string token, string ipAddress)

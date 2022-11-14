@@ -24,8 +24,8 @@ public class AuthController : BaseController
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterViewModel registerViewModel)
     {
-        await _authService.Register(registerViewModel);
-        return Ok();
+        var response = await _authService.Register(registerViewModel);
+        return Ok(response);
     }
     
     [HttpPost("refresh-token")]

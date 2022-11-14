@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using RaiffeisenClone.Domain;
 
 namespace RaiffeisenClone.Application.ViewModels;

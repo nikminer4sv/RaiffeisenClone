@@ -13,14 +13,6 @@ ul {
 
     float: left;
 
-    &:nth-last-child(1) {
-      float: right;
-    }
-
-    &:nth-last-child(2) {
-      float: right;
-    }
-
     a {
 
       font-size: 16px;
@@ -40,4 +32,18 @@ ul {
     }
 
   }
+}
+
+mat-menu {
+  background-color: var(--dark-background);
+  padding: 0;
+}
+
+input.mat-menu {
+  background: red!important;
+}
+
+button {
+  text-transform: uppercase;
+  background-color: red;
 }

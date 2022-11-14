@@ -1,0 +1,16 @@
+<div>
+  <div class="new-deposit-button">
+    <button mat-flat-button color="primary" routerLink="/deposits/add">
+      CREATE NEW DEPOSIT
+    </button>
+  </div>
+  <mat-card *ngFor="let deposit of depositsList">
+    <mat-card-content>
+      <p>Currency: {{deposit.currency}}</p>
+      <p>Bid: {{deposit.bid}}</p>
+      <p>Term: {{getBeatifulDate(deposit.term)}}</p>
+      <button style="float: right;" mat-raised-button color="primary" (click)="deleteByIdWrapper(deposit.id)">DELETE</button>
+      <div style="clear: both"></div>
+    </mat-card-content>
+  </mat-card>
+</div>

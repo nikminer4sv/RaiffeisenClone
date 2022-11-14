@@ -13,14 +13,6 @@ public class DepositViewModelValidator : AbstractValidator<DepositViewModel>
             .MaximumLength(3)
             .WithMessage("Length must be less or equal to three");
 
-        RuleFor(model => model.IsReplenished)
-            .NotEmpty()
-            .WithMessage("Is replenished value is empty");
-        
-        RuleFor(model => model.IsWithdrawed)
-            .NotEmpty()
-            .WithMessage("Is withdrawed value is empty");
-        
         RuleFor(model => model.Bid)
             .NotEmpty()
             .WithMessage("Bid is empty");
