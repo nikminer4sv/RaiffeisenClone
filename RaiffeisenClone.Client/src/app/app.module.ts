@@ -33,6 +33,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import { NewDepositComponent } from './new-deposit/new-deposit.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { InfoComponent } from './info/info.component';
+import { CurrenciesComponent } from './currencies/currencies.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { InfoComponent } from './info/info.component';
     DepositsComponent,
     NewDepositComponent,
     InfoComponent,
+    CurrenciesComponent,
   ],
     imports: [
         BrowserModule,

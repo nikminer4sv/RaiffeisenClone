@@ -8,6 +8,7 @@ import {RegisterComponent} from "./register/register.component";
 import {DepositsComponent} from "./deposits/deposits.component";
 import {NewDepositComponent} from "./new-deposit/new-deposit.component";
 import {InfoComponent} from "./info/info.component";
+import {CurrenciesComponent} from "./currencies/currencies.component";
 
 const routes: Routes = [
   {path: "", component: MainLayoutComponent, children: [
@@ -18,6 +19,7 @@ const routes: Routes = [
       {path: "deposits", component: DepositsComponent},
       {path: "deposits/add", component: NewDepositComponent},
       {path: "info", component: InfoComponent},
+      {path: "currencies", component: CurrenciesComponent},
       {path: "**", component: NotFoundComponent}
     ]},
 ];

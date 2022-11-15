@@ -1,0 +1,8 @@
+mat-card {
+  &:first-child {
+    margin-top: 20px;
+  }
+
+  background-color: var(--dark-background);
+  margin-bottom: 10px;
+}

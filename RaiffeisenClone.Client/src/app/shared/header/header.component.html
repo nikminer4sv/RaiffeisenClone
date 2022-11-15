@@ -2,6 +2,7 @@
   <ul>
     <li><a routerLink="/">Home</a></li>
     <li *ngIf="auth.isAuthenticated()"><a routerLink="/deposits">Deposits</a></li>
+    <li><a routerLink="/currencies">Currency</a></li>
     <li><a routerLink="/info">Info</a></li>
     <li *ngIf="!this.auth.isAuthenticated()" style="float: right"><a routerLink="/register">Register</a></li>
     <li *ngIf="!this.auth.isAuthenticated()" style="float: right"><a routerLink="/login">Login</a></li>
