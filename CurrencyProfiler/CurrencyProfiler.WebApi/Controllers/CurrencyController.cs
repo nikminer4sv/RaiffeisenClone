@@ -20,6 +20,7 @@ public class CurrencyController : BaseController
     [Route("getexchangerates")]
     public async Task<string> Get([FromQuery] string baseCurrency, [FromQuery] string[] currencies)
     {
+        /*
         var content = await _currencyService.GetExchangeRates(baseCurrency, currencies);
         var currencyList = new CurrencyList
         {
@@ -28,5 +29,8 @@ public class CurrencyController : BaseController
         };
         await _dbService.AddAsync(currencyList);
         return JsonSerializer.Serialize(content.Rates);
+        */
+
+        return await _dbService.GetLastAsync();
     }
 }

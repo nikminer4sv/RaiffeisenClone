@@ -1,6 +1,9 @@
+using System.Text.Json;
 using CurrencyProfiler.Application;
 using CurrencyProfiler.Persistence.Interfaces;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 
 namespace CurrencyProfiler.Persistence.Services;
@@ -21,5 +24,11 @@ public class DbService : IDbService<CurrencyList>
     public async Task AddAsync(CurrencyList entity)
     {
         await _currencyHistory.InsertOneAsync(entity);
+    }
+
+    public async Task<string> GetLastAsync()
+    {
+        var records = await _currencyHistory.Find(Builders<CurrencyList>.Filter.Empty).ToListAsync();
+        return JsonSerializer.Serialize(records.Last().Currencies);
     }
 }

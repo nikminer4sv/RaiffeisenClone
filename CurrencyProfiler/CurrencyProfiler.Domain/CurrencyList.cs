@@ -1,7 +1,14 @@
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
 namespace CurrencyProfiler.Application;
 
+[BsonNoId]
+[BsonIgnoreExtraElements]
 public class CurrencyList
 {
-    public Dictionary<string, double> Currencies { get; set; }
-    public string Timestamp { get; set; }
+    [BsonElement("Currencies")]
+    public Dictionary<string, double>? Currencies { get; set; }
+    [BsonElement("Timestamp")]
+    public string? Timestamp { get; set; }
 }
