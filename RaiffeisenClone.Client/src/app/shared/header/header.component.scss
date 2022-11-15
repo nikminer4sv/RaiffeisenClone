@@ -1,0 +1,49 @@
+:host div {
+  background-color: var(--dark-background);
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  width: 100%;
+
+  li {
+
+    float: left;
+
+    a {
+
+      font-size: 16px;
+      display: block;
+      color: white;
+      text-align: center;
+      font-weight: bold;
+      padding: 14px 16px;
+      text-decoration: none;
+      text-transform: uppercase;
+
+      &:hover {
+        color: var(--secondary);
+        transition: 0.1s;
+      }
+
+    }
+
+  }
+}
+
+mat-menu {
+  background-color: var(--dark-background);
+  padding: 0;
+}
+
+input.mat-menu {
+  background: red!important;
+}
+
+button {
+  text-transform: uppercase;
+  background-color: red;
+}

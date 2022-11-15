@@ -1,0 +1,28 @@
+.new-deposit-button {
+  button {
+    width: 100%;
+    font-size: 20px;
+    margin-top: 20px;
+    height: 50px;
+    transition: 0.2s;
+
+    &:hover {
+      filter: brightness(110%);
+      letter-spacing: 5px;
+      transition: 0.2s;
+    }
+  }
+}
+
+.mat-card {
+  background-color: var(--dark-background);
+  margin-top: 20px;
+
+  p {
+    font-size: 20px;
+  }
+
+  &:first-child {
+    margin-top: 60px;
+  }
+}

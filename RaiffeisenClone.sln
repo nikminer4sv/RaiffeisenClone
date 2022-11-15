@@ -14,6 +14,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EmailWorker", "EmailWorker"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailWorker", "EmailWorker\EmailWorker.csproj", "{78BA3C78-1B01-44EA-874E-31B08FD023D7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CurrencyProfiler", "CurrencyProfiler", "{A309490F-AA2F-40DF-AD16-7FBB931FBDF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurrencyProfiler.WebApi", "CurrencyProfiler\CurrencyProfiler.WebApi\CurrencyProfiler.WebApi.csproj", "{12641AE3-C31E-4238-8BEE-B339CEA989C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurrencyProfiler.Domain", "CurrencyProfiler\CurrencyProfiler.Domain\CurrencyProfiler.Domain.csproj", "{74A795CB-4745-4165-8CA2-D6AF07C26FB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurrencyProfiler.Application", "CurrencyProfiler\CurrencyProfiler.Application\CurrencyProfiler.Application.csproj", "{D1347D13-CB7E-408E-80F5-7DE1E47A27DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurrencyProfiler.Persistence", "CurrencyProfiler.Persistence\CurrencyProfiler.Persistence.csproj", "{7D07E7B3-A192-47C3-A5D4-29A12A26DD62}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,8 +54,28 @@ Global
 		{78BA3C78-1B01-44EA-874E-31B08FD023D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78BA3C78-1B01-44EA-874E-31B08FD023D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78BA3C78-1B01-44EA-874E-31B08FD023D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12641AE3-C31E-4238-8BEE-B339CEA989C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12641AE3-C31E-4238-8BEE-B339CEA989C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12641AE3-C31E-4238-8BEE-B339CEA989C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12641AE3-C31E-4238-8BEE-B339CEA989C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74A795CB-4745-4165-8CA2-D6AF07C26FB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74A795CB-4745-4165-8CA2-D6AF07C26FB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74A795CB-4745-4165-8CA2-D6AF07C26FB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74A795CB-4745-4165-8CA2-D6AF07C26FB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1347D13-CB7E-408E-80F5-7DE1E47A27DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1347D13-CB7E-408E-80F5-7DE1E47A27DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1347D13-CB7E-408E-80F5-7DE1E47A27DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1347D13-CB7E-408E-80F5-7DE1E47A27DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D07E7B3-A192-47C3-A5D4-29A12A26DD62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D07E7B3-A192-47C3-A5D4-29A12A26DD62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D07E7B3-A192-47C3-A5D4-29A12A26DD62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D07E7B3-A192-47C3-A5D4-29A12A26DD62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{78BA3C78-1B01-44EA-874E-31B08FD023D7} = {93BB09BE-F011-42D4-AA62-D313CA7406C9}
+		{12641AE3-C31E-4238-8BEE-B339CEA989C7} = {A309490F-AA2F-40DF-AD16-7FBB931FBDF6}
+		{74A795CB-4745-4165-8CA2-D6AF07C26FB4} = {A309490F-AA2F-40DF-AD16-7FBB931FBDF6}
+		{D1347D13-CB7E-408E-80F5-7DE1E47A27DF} = {A309490F-AA2F-40DF-AD16-7FBB931FBDF6}
+		{7D07E7B3-A192-47C3-A5D4-29A12A26DD62} = {A309490F-AA2F-40DF-AD16-7FBB931FBDF6}
 	EndGlobalSection
 EndGlobal
