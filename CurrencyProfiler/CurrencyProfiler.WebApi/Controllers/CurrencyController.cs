@@ -1,7 +1,5 @@
-using System.Text.Json;
 using CurrencyProfiler.Application;
 using CurrencyProfiler.Application.Interfaces;
-using CurrencyProfiler.Application.ViewModels;
 using CurrencyProfiler.Persistence.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,17 +18,6 @@ public class CurrencyController : BaseController
     [Route("getexchangerates")]
     public async Task<string> Get([FromQuery] string baseCurrency, [FromQuery] string[] currencies)
     {
-        /*
-        var content = await _currencyService.GetExchangeRates(baseCurrency, currencies);
-        var currencyList = new CurrencyList
-        {
-            Currencies = content.Rates,
-            Timestamp = content.Timestamp.ToString()
-        };
-        await _dbService.AddAsync(currencyList);
-        return JsonSerializer.Serialize(content.Rates);
-        */
-
         return await _dbService.GetLastAsync();
     }
 }

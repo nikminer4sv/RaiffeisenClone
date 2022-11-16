@@ -7,8 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CurrencyProfiler\CurrencyProfiler.Domain\CurrencyProfiler.Domain.csproj" />
-      <ProjectReference Include="..\RaiffeisenClone.Domain\RaiffeisenClone.Domain.csproj" />
+      <ProjectReference Include="..\CurrencyProfiler.Domain\CurrencyProfiler.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>

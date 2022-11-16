@@ -22,4 +22,8 @@ export class CurrenciesComponent implements OnInit {
     this.currency.getExchangeRates().subscribe(response => this.exchangeRates = JSON.parse(JSON.stringify(response)));
   }
 
+  formatNumber(input: number, dot: number) {
+    return input.toFixed(dot);
+  }
+
 }
