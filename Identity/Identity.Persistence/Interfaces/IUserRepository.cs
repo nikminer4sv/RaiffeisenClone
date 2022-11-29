@@ -1,6 +1,6 @@
-using RaiffeisenClone.Domain;
+using Identity.Domain;
 
-namespace RaiffeisenClone.Persistence.Interfaces;
+namespace Identity.Persistence.Interfaces;
 
 public interface IUserRepository : IGenericRepository<User>
 {

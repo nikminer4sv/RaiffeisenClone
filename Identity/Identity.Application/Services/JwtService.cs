@@ -2,14 +2,15 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Identity.Application.Helpers;
+using Identity.Application.Interfaces;
+using Identity.Domain;
+using Identity.Persistence;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using RaiffeisenClone.Application.Helpers;
-using RaiffeisenClone.Application.Interfaces;
 using RaiffeisenClone.Domain;
-using RaiffeisenClone.Persistence;
 
-namespace RaiffeisenClone.Application.Services;
+namespace Identity.Application.Services;
 
 public class JwtService : IJwtService
 {

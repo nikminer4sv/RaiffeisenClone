@@ -28,9 +28,9 @@ public class AvatarService : IAvatarService
         
         var avatarId = await _unitOfWork.Avatars.AddAsync(avatar);
         
-        var user = await _unitOfWork.Users.GetByIdAsync(userId);
-        user.AvatarId = avatarId;
-        await _unitOfWork.Users.UpdateAsync(user);
+        //var user = await _unitOfWork.Users.GetByIdAsync(userId);
+        //user.AvatarId = avatarId;
+        //await _unitOfWork.Users.UpdateAsync(user);
         
         await _unitOfWork.SaveAsync();
 

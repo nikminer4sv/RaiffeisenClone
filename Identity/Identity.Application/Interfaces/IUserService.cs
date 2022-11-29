@@ -1,7 +1,8 @@
-using RaiffeisenClone.Application.ViewModels;
-using RaiffeisenClone.Domain;
+using Identity.Application.ViewModels;
+using Identity.Application.ViewModels.RegisterViewModel;
+using Identity.Domain;
 
-namespace RaiffeisenClone.Application.Interfaces;
+namespace Identity.Application.Interfaces;
 
 public interface IUserService : IService
 { 

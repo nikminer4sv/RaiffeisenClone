@@ -32,11 +32,11 @@ public class DepositService : IDepositService
     public async Task<Guid> AddAsync(DepositViewModel depositViewModel, Guid userId)
     {
         Deposit deposit = _mapper.Map<Deposit>(depositViewModel);
-        var user = await _unitOfWork.Users.GetByIdAsync(userId);
+        //var user = await _unitOfWork.Users.GetByIdAsync(userId);
         deposit.UserId = userId;
         await _unitOfWork.Deposits.AddAsync(deposit);
         await _unitOfWork.SaveAsync();
-        _emailSender.Send(user!.Email, "email_add_deposit");
+        //_emailSender.Send(user!.Email, "email_add_deposit");
         return deposit.Id;
     }
     
@@ -61,7 +61,7 @@ public class DepositService : IDepositService
         await _unitOfWork.Deposits.DeleteAsync(temp);
         await _unitOfWork.SaveAsync();
 
-        var user = await _unitOfWork.Users.GetByIdAsync(userId);
-        _emailSender.Send(user!.Email, "email_delete_deposit");
+        //var user = await _unitOfWork.Users.GetByIdAsync(userId);
+        //_emailSender.Send(user!.Email, "email_delete_deposit");
     }
 }

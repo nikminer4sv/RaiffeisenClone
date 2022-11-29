@@ -1,6 +1,6 @@
+using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using RaiffeisenClone.Application.Interfaces;
-using RaiffeisenClone.Application.Services;
 using RaiffeisenClone.Application.ViewModels;
 
 namespace RaiffeisenClone.WebApi.Controllers;
@@ -8,33 +8,38 @@ namespace RaiffeisenClone.WebApi.Controllers;
 [ApiController]
 public class AuthController : BaseController
 {
-    private readonly IAuthService _authService;
+    private readonly HttpClient _httpClient;
 
-    public AuthController(IAuthService authService) => 
-        (_authService) = (authService);
+    public AuthController(HttpClient httpClient, ILogger<Controller> logger) => 
+        (_httpClient, _logger) = (httpClient, logger);
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginViewModel model)
+    public async Task<IActionResult> Login([FromForm] LoginViewModel model)
     {
-        var response = await _authService.Authenticate(model, ipAddress());
-        //setTokenCookie(response.RefreshToken);
-        return Ok(response);
+        _logger.LogCritical(UserId.ToString());
+        var content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, System.Net.Mime.MediaTypeNames.Application.Json);
+        var response = await _httpClient.PostAsync("http://localhost:5073/api/auth/login", content);
+        response.EnsureSuccessStatusCode();
+        return Ok(await response.Content.ReadAsStringAsync());
     }
     
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterViewModel registerViewModel)
     {
-        var response = await _authService.Register(registerViewModel);
-        return Ok(response);
+        var content = new StringContent(JsonSerializer.Serialize(registerViewModel), Encoding.UTF8, System.Net.Mime.MediaTypeNames.Application.Json);
+        var response = await _httpClient.PostAsync("http://localhost:5073/api/auth/register", content);
+        response.EnsureSuccessStatusCode();
+        return Ok(await response.Content.ReadAsStringAsync());
     }
     
     [HttpPost("refresh-token")]
     public async Task<IActionResult> RefreshToken()
     {
         var refreshToken = Request.Cookies["refreshToken"];
-        var response = await _authService.RefreshToken(refreshToken, ipAddress());
-        //setTokenCookie(response.RefreshToken);
-        return Ok(response);
+        var content = new StringContent(JsonSerializer.Serialize(refreshToken), Encoding.UTF8, System.Net.Mime.MediaTypeNames.Application.Json);
+        var response = await _httpClient.PostAsync("http://localhost:5073/api/auth/refresh-token", content);
+        response.EnsureSuccessStatusCode();
+        return Ok(await response.Content.ReadAsStringAsync());
     }
     
     [HttpPost("revoke-token")]
@@ -45,8 +50,10 @@ public class AuthController : BaseController
         if (string.IsNullOrEmpty(token))
             return BadRequest(new { message = "Token is required" });
 
-        await _authService.RevokeToken(token, ipAddress());
-        return Ok(new { message = "Token revoked" });
+        var content = new StringContent(JsonSerializer.Serialize(refreshToken), Encoding.UTF8, System.Net.Mime.MediaTypeNames.Application.Json);
+        var response = await _httpClient.PostAsync("http://localhost:5073/api/auth/revoke-token", content);
+        response.EnsureSuccessStatusCode();
+        return Ok(await response.Content.ReadAsStringAsync());
     }
 
     private void setTokenCookie(string token)

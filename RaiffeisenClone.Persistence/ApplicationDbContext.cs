@@ -8,8 +8,7 @@ namespace RaiffeisenClone.Persistence;
 public class ApplicationDbContext : DbContext
 {
     public DbSet<Deposit> Deposits { get; set; }
-    public DbSet<User> Users { get; set; }
-    
+
     public DbSet<Avatar> Avatars { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
@@ -19,7 +18,6 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.ApplyConfiguration(new UserConfiguration());
         builder.ApplyConfiguration(new DepositConfiguration());
         builder.ApplyConfiguration(new AvatarConfiguration());
         base.OnModelCreating(builder);

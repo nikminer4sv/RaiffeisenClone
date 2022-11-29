@@ -1,11 +1,15 @@
+using Identity.Application.Exceptions;
+using Identity.Application.Helpers;
+using Identity.Application.Interfaces;
+using Identity.Application.ViewModels;
+using Identity.Application.ViewModels.LoginViewModel;
+using Identity.Application.ViewModels.RegisterViewModel;
+using Identity.Domain;
 using Microsoft.Extensions.Options;
-using RaiffeisenClone.Application.Exceptions;
 using RaiffeisenClone.Application.ViewModels;
-using RaiffeisenClone.Application.Helpers;
-using RaiffeisenClone.Application.Interfaces;
 using RaiffeisenClone.Domain;
 
-namespace RaiffeisenClone.Application.Services;
+namespace Identity.Application.Services;
 
 public class AuthService : IAuthService
 {

@@ -1,6 +1,7 @@
+using Identity.Domain;
 using RaiffeisenClone.Domain;
 
-namespace RaiffeisenClone.Application.Interfaces;
+namespace Identity.Application.Interfaces;
 
 public interface IJwtService : IService
 {

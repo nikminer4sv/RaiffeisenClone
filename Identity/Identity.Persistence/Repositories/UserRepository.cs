@@ -1,10 +1,10 @@
+using Identity.Domain;
+using Identity.Persistence.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using RaiffeisenClone.Domain;
-using RaiffeisenClone.Persistence.Interfaces;
 
-namespace RaiffeisenClone.Persistence.Repositories;
+namespace Identity.Persistence.Repositories;
 
-class UserRepository: GenericRepository <User> , IUserRepository {
+public class UserRepository: GenericRepository <User> , IUserRepository {
     public UserRepository(ApplicationDbContext context): base(context) {}
     public async Task<User?> GetByUsernameAsync(string username)
     {

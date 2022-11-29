@@ -1,6 +1,7 @@
+using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RaiffeisenClone.Application.Interfaces;
 
 namespace RaiffeisenClone.WebApi.Controllers;
 
@@ -8,19 +9,17 @@ namespace RaiffeisenClone.WebApi.Controllers;
 [ApiController]
 public class AvatarController : BaseController
 {
-    private readonly IAvatarService _avatarService;
+    private readonly HttpClient _httpClient;
 
-    public AvatarController(IAvatarService avatarService) => _avatarService = avatarService;
+    public AvatarController(HttpClient httpClient) => _httpClient = httpClient;
 
     [HttpPost]
     public async Task<IActionResult> Upload([FromForm]IFormFile avatar)
     {
-        if (avatar.Length > 0)
-        {
-            var id = await _avatarService.UploadAsync(UserId, avatar);
-            return Ok(id);
-        }
-        return BadRequest();
+        var content = new StringContent(JsonSerializer.Serialize(avatar), Encoding.UTF8, System.Net.Mime.MediaTypeNames.Application.Json);
+        var response = await _httpClient.PostAsync("http://localhost:5073/api/avatar", content);
+        response.EnsureSuccessStatusCode();
+        return Ok(await response.Content.ReadAsStringAsync());
     }
     
 }

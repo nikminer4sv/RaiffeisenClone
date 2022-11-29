@@ -1,15 +1,15 @@
 using AutoMapper;
-using RaiffeisenClone.Application.ViewModels;
-using RaiffeisenClone.Domain;
+using Identity.Application.ViewModels;
+using Identity.Application.ViewModels.RegisterViewModel;
+using Identity.Domain;
 
-namespace RaiffeisenClone.Application.MappingProfiles;
+namespace Identity.Application.MappingProfiles;
 
 public class UserProfile : Profile
 {
     public UserProfile()
     {
         CreateMap<User, UserViewModel>().ReverseMap();
-        //CreateMap<User, LoginViewModel>().ReverseMap();
         CreateMap<RegisterViewModel, User>();
     }
 }

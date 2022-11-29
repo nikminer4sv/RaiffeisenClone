@@ -1,8 +1,8 @@
+using Identity.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RaiffeisenClone.Domain;
 
-namespace RaiffeisenClone.Persistence.EntityTypeConfigurations;
+namespace Identity.Persistence.EntityTypeConfigurations;
 
 public class UserConfiguration : IEntityTypeConfiguration<User>
 {

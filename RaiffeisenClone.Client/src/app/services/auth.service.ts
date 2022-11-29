@@ -10,7 +10,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   login(user: any) {
-    return this.http.post('http://localhost:8000/api/auth/login', user)
+    return this.http.post('http://localhost:5073/api/auth/login', user)
       .pipe(
         tap(this.setToken)
       )

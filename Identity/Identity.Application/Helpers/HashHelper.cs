@@ -1,4 +1,4 @@
-namespace RaiffeisenClone.Application.Helpers;
+namespace Identity.Application.Helpers;
 
 public static class HashHelper
 {

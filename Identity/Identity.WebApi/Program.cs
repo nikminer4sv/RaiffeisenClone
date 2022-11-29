@@ -1,12 +1,13 @@
 using System.Text;
+using Identity.Application.Helpers;
+using Identity.Persistence;
+using Identity.WebApi.Extensions;
+using Identity.WebApi.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using RaiffeisenClone.Persistence;
-using RaiffeisenClone.WebApi.Extensions;
-using RaiffeisenClone.WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +19,7 @@ builder.Services.AddCors(o => o.AddPolicy("AllPolicy", policy =>
     policy.AllowAnyHeader();
 }));
 builder.Services.AddControllers();
-//builder.Services.Configure<TokensSettings>(builder.Configuration.GetSection("TokensSettings"));
-builder.Services.AddHttpClient();
+builder.Services.Configure<TokensSettings>(builder.Configuration.GetSection("TokensSettings"));
 builder.Services.Configure<FormOptions>(options =>
 {
     options.ValueCountLimit = 10; //default 1024
@@ -75,7 +75,7 @@ builder.Services.AddAuthentication(config =>
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddPersistence(builder.Configuration.GetConnectionString("MSSql"));
+builder.Services.AddPersistence(builder.Configuration.GetConnectionString("MSSqlLocal"));
 builder.Services.AddApplication();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
@@ -102,4 +102,5 @@ using (var scope = app.Services.CreateScope())
     if (context.Database.GetPendingMigrations().Any())
         context.Database.Migrate();
 }
+
 app.Run();
