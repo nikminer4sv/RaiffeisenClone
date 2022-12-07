@@ -1,4 +1,5 @@
 using System.Text;
+using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
@@ -54,7 +55,17 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-builder.Services.AddAuthentication(config =>
+builder.Services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+    .AddIdentityServerAuthentication(options =>
+    {
+        options.Authority = "http://localhost:5171";
+        options.RequireHttpsMetadata = false;       
+        options.ApiName = "RaiffeisenApi";
+        options.ApiSecret = "a75a559d-1dab-4c65-9bc0-f8e590cb388d";
+
+    });
+
+/*builder.Services.AddAuthentication(config =>
 {
     config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -72,10 +83,10 @@ builder.Services.AddAuthentication(config =>
         RequireExpirationTime = false,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["TokensSettings:Secret"]))
     };
-});
+});*/
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddPersistence(builder.Configuration.GetConnectionString("MSSql"));
+builder.Services.AddPersistence(builder.Configuration.GetConnectionString("MSSqlLocal"));
 builder.Services.AddApplication();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 

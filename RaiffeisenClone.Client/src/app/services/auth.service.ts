@@ -10,20 +10,20 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   login(user: any) {
-    return this.http.post('http://localhost:5073/api/auth/login', user)
+    return this.http.post('https://localhost:7173/auth/login', user)
       .pipe(
         tap(this.setToken)
       )
   }
 
   register(user: any) {
-    return this.http.post("http://localhost:8000/api/auth/register", user);
+    return this.http.post("https://localhost:7173/auth/login", user);
   }
 
   private setToken(response: any) {
     if (response) {
-      localStorage.setItem("jwt-token", response.jwtToken)
-      localStorage.setItem("refresh-token", response.refreshToken)
+      localStorage.setItem("jwt-token", response.accessToken)
+      //localStorage.setItem("refresh-token", response.refreshToken)
     } else {
       localStorage.clear();
     }

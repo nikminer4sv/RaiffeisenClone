@@ -52,7 +52,6 @@ public abstract class CronJobService : IHostedService, IDisposable
 
     public virtual async Task DoWork(CancellationToken cancellationToken)
     {
-        System.Diagnostics.Debug.WriteLine("asdfadsfsdfsdf");
     }
     public virtual async Task StopAsync(CancellationToken cancellationToken)
     {

@@ -10,6 +10,7 @@ using RaiffeisenClone.Domain;
 namespace RaiffeisenClone.WebApi.Controllers;
 
 [ApiController]
+[Authorize]
 public class DepositController : BaseController
 {
     private readonly IDepositService _depositService;

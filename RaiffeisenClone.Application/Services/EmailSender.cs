@@ -17,7 +17,7 @@ public class EmailSender : IEmailSender, IDisposable{
     {
         _connectionFactory = new ConnectionFactory
         {
-            HostName = "rabbitmq"
+            HostName = "localhost"
         };
         _connectionFactory.RequestedHeartbeat = TimeSpan.FromSeconds(60);
         _connection = _connectionFactory.CreateConnection();

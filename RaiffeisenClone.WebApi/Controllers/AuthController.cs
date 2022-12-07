@@ -9,8 +9,9 @@ namespace RaiffeisenClone.WebApi.Controllers;
 public class AuthController : BaseController
 {
     private readonly HttpClient _httpClient;
+    private readonly ILogger<AuthController> _logger;
 
-    public AuthController(HttpClient httpClient, ILogger<Controller> logger) => 
+    public AuthController(HttpClient httpClient, ILogger<AuthController> logger) => 
         (_httpClient, _logger) = (httpClient, logger);
 
     [HttpPost("login")]

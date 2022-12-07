@@ -22,7 +22,7 @@ export class DepositService {
     const requestOptions = {
       headers: new HttpHeaders(headerDict)
     };
-    return this.http.get("http://localhost:8000/api/deposit", requestOptions);
+    return this.http.get("https://localhost:7007/api/deposit", requestOptions);
   }
 
   deleteById(id: string) {
@@ -33,7 +33,7 @@ export class DepositService {
       headers: new HttpHeaders(headerDict)
     };
     console.log(id);
-    return this.http.delete("http://localhost:8000/api/deposit/" + id, requestOptions);
+    return this.http.delete("https://localhost:7007/api/deposit/" + id, requestOptions);
   }
 
   add(deposit: any) {
@@ -43,6 +43,6 @@ export class DepositService {
     const requestOptions = {
       headers: new HttpHeaders(headerDict)
     };
-    return this.http.post("http://localhost:8000/api/deposit", deposit, requestOptions);
+    return this.http.post("https://localhost:7007/api/deposit", deposit, requestOptions);
   }
 }
