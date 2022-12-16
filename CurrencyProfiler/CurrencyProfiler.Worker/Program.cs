@@ -1,20 +1,27 @@
 using CurrencyProfiler.Application;
 using CurrencyProfiler.Application.Interfaces;
 using CurrencyProfiler.Application.Services;
+using CurrencyProfiler.Domain;
 using CurrencyProfiler.Persistence.Interfaces;
 using CurrencyProfiler.Persistence.Services;
 using CurrencyProfiler.Worker.Extensions;
 using CurrencyProfiler.Worker.Services;
+using CurrencyProfiler.Worker.Utils;
+using Microsoft.EntityFrameworkCore;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
-        services.AddSingleton<IDbService<CurrencyList>, DbService>();
-        services.AddSingleton<ICurrencyService, CurrencyService>();
-        services.AddCronJob<CronJobWork>(c =>
+        services.AddDbContext<CurrencyProfiler.Persistence.AppDbContext>(options =>
         {
-            c.TimeZoneInfo = TimeZoneInfo.Local;
-            c.CronExpression = @"*/1 * * * *";
+            options.UseSqlServer("Server=localhost;Database=CurrencyProfiler;User=sa;Password=7514895263a-B", b => b.MigrationsAssembly("CurrencyProfiler.WebApi"));
+        });
+        services.AddScoped<IDbService<CurrencyList>, DbService>();
+        services.AddSingleton<ICurrencyService, CurrencyService>();
+        services.AddCronJob<CronJobWork>(new ScheduleConfig<CronJobWork>
+        {
+            TimeZoneInfo = TimeZoneInfo.Local,
+            CronExpression = @"*/1 * * * *"
         });
     })
     .Build();

@@ -8,8 +8,9 @@ builder.Services.AddCors(o => o.AddPolicy("AllPolicy", policy =>
     policy.AllowAnyHeader();
 }));
 builder.Services.AddControllers();
-builder.Services.AddPersistence();
+builder.Services.AddPersistence(builder.Configuration.GetConnectionString("MSSqlLocal"));
 builder.Services.AddApplication();
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 

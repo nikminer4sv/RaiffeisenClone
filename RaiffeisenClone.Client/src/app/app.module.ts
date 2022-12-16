@@ -34,6 +34,8 @@ import { NewDepositComponent } from './new-deposit/new-deposit.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { InfoComponent } from './info/info.component';
 import { CurrenciesComponent } from './currencies/currencies.component';
+import {AgGridModule} from "ag-grid-angular";
+import { RateHistoryComponent } from './rate-history/rate-history.component';
 
 @NgModule({
   declarations: [
@@ -48,31 +50,33 @@ import { CurrenciesComponent } from './currencies/currencies.component';
     NewDepositComponent,
     InfoComponent,
     CurrenciesComponent,
+    RateHistoryComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatSliderModule,
-        MatInputModule,
-        MatButtonModule,
-        MatSelectModule,
-        MatRadioModule,
-        MatCardModule,
-        ReactiveFormsModule,
-        LayoutModule,
-        MatToolbarModule,
-        MatSidenavModule,
-        MatIconModule,
-        MatListModule,
-        MatSlideToggleModule,
-        FormsModule,
-        MatNativeDateModule,
-        MatDatepickerModule,
-        HttpClientModule,
-        MatMenuModule,
-        MatCheckboxModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatSliderModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatRadioModule,
+    MatCardModule,
+    ReactiveFormsModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MatSlideToggleModule,
+    FormsModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    HttpClientModule,
+    MatMenuModule,
+    MatCheckboxModule,
+    AgGridModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -9,6 +9,7 @@ import {DepositsComponent} from "./deposits/deposits.component";
 import {NewDepositComponent} from "./new-deposit/new-deposit.component";
 import {InfoComponent} from "./info/info.component";
 import {CurrenciesComponent} from "./currencies/currencies.component";
+import {RateHistoryComponent} from "./rate-history/rate-history.component";
 
 const routes: Routes = [
   {path: "", component: MainLayoutComponent, children: [
@@ -20,6 +21,7 @@ const routes: Routes = [
       {path: "deposits/add", component: NewDepositComponent},
       {path: "info", component: InfoComponent},
       {path: "currencies", component: CurrenciesComponent},
+      {path: "rate", component: RateHistoryComponent},
       {path: "**", component: NotFoundComponent}
     ]},
 ];

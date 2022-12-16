@@ -65,26 +65,6 @@ builder.Services.AddAuthentication(IdentityServerAuthenticationDefaults.Authenti
 
     });
 
-/*builder.Services.AddAuthentication(config =>
-{
-    config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer("Bearer", options =>
-{
-    options.SaveToken = true;
-    options.Audience = "API";
-    options.RequireHttpsMetadata = false;
-    options.TokenValidationParameters = new TokenValidationParameters()
-    {
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ValidateIssuerSigningKey = true,
-        ValidateLifetime = false,
-        RequireExpirationTime = false,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["TokensSettings:Secret"]))
-    };
-});*/
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddPersistence(builder.Configuration.GetConnectionString("MSSqlLocal"));
 builder.Services.AddApplication();

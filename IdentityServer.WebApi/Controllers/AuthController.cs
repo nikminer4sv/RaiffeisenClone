@@ -40,20 +40,22 @@ public class AuthController : Controller
         return BadRequest("Invalid username or password");
     }
 
+    [HttpPost]
     public async Task<IActionResult> Register([FromBody] RegisterViewModel registerViewModel)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(registerViewModel.FirstName + " " + registerViewModel.LastName + " " + registerViewModel.Email);
+        //if (!ModelState.IsValid)
+        //    return BadRequest(registerViewModel.FirstName + " " + registerViewModel.LastName + " " + registerViewModel.Email);
         var user = new AppUser
         {
             FirstName = registerViewModel.FirstName,
             LastName = registerViewModel.LastName,
             UserName = registerViewModel.Username,
             Email = registerViewModel.Email,
+            DateOfBirth = DateTime.Now
         };
         var result = await _userManager.CreateAsync(user, registerViewModel.Password);
         if (result.Succeeded)
-            await _signInManager.SignInAsync(user, false);
-        return Ok();
+            return Ok(new RegisterResponseViewModel {Username = user.UserName, Password = registerViewModel.Password});
+        return BadRequest("Invalid data");
     }
 }

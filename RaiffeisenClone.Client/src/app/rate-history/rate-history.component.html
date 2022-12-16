@@ -1,0 +1,19 @@
+<ag-grid-angular
+  #myGrid
+  style="height: 640px;"
+  class="ag-theme-material"
+
+  [rowData]="rowData"
+  [defaultColDef]="defaultColumnDefs"
+  [columnDefs]="columnDefs"
+  [gridOptions]="gridOptions"
+  [cacheOverflowSize]="cacheOverflowSize"
+  [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
+  [infiniteInitialRowCount]="infiniteInitialRowCount"
+  [pagination]=true
+
+  (gridReady)="onGridReady($event)"
+  (paginationChanged)="onPaginationChanged($event)">
+
+
+</ag-grid-angular>

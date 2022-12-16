@@ -14,6 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\RaiffeisenClone.Application\RaiffeisenClone.Application.csproj" />
       <ProjectReference Include="..\CurrencyProfiler.Persistence\CurrencyProfiler.Persistence.csproj" />
       <ProjectReference Include="..\CurrencyProfiler.Application\CurrencyProfiler.Application.csproj" />
     </ItemGroup>

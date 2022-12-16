@@ -8,7 +8,7 @@ import {CurrencyService} from "../services/currency.service";
 })
 export class CurrenciesComponent implements OnInit {
 
-  exchangeRates: any;
+  exchangeRates: any = {};
 
   constructor(
     private currency: CurrencyService

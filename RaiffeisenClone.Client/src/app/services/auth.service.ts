@@ -17,7 +17,7 @@ export class AuthService {
   }
 
   register(user: any) {
-    return this.http.post("https://localhost:7173/auth/login", user);
+    return this.http.post("https://localhost:7173/auth/register", user);
   }
 
   private setToken(response: any) {
